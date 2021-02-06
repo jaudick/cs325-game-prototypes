@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Space Boss</h2>
+
+<ul>
+<li><strong>Originality:</strong>
+My game is original in its combination of humor, setting, and platforming mechanics. These are all explained further below.
+</li>
+
+<li><strong>Technical Merit:</strong>
+What is interesting about your game technology?
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+I have never used phaser before so I went from knowing absolutley nothing to knowing something. I mostly learned how to implement movement, text, and physics.
+Since my major is game design and I have experience using unity, I found developing a concept and fun mechanics easy. The hardest part was actaully making those
+mechanics happen with the confusing documentation phaser provides and never using javascript previously. I was learning how to code in phaser and how to code in
+javascript at the same time. 
+</li>
+
+<li><strong>Prototype Assets:</strong>
+I used assets from here:
+<ul>
+<li>Astronaut and platform: <a href="https://opengameart.org/content/astronaut-0">Astronaut and platform</a></li>
+<li>Asteroid: <a href="https://opengameart.org/content/asteroids">Asteroid</a></li>
+<li>Space Background: <a href="https://opengameart.org/content/space-background">Space background</a></li>
+<li>Music: The music is entirely original composed by be. I used to make a lot of electronic music so I made this light-hearted space tune.
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+I borrowed code from the phaser platformer tutorial on the front page of the site. I used that for the foundations of movement, animations, and physics since I had absolutley no idea what I was doing
+with phaser's api.
+</li>
+
+<li><strong>High Concept:</strong>
+The player manuvers a boss in low gravity to firign as many employees as possible with witty phrases while simultaneously avoiding asteroids. 
+</li>
+
+<li><strong>Theme:</strong>
+I used the theme of acting like your first boss. My first job was folding clothes at GAP. My boss fired people when the store wasn't hitting monthly goals to save costs. I thought making a retail game would be boring, but being a boss
+that fires everybody in site would be cathartic. It was.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+The input is keyboard. There is a lot of randomess with employee movement and asteroid movement. I would consider the play style for the joker. There are no achievement's or level progression,
+just a boss who says witty phrases when firing all of his employees. The genre is platformer.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+The main mechanic I wanted to evaluate was 2D player movment relationships to hazards. The player has more manuverability than hazards with an imediate downward thrust. 
+The hazards collide with the screen boundries but the player wraps to the other side both vertically and horizontally. The player should discover how to utilize these mechanics to their advantage. 
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+I want the the player to feel challenged by the gameplay while also being charmed by the setting, music, and humor.
+</li>
+
+<li><strong>Gameplay:</strong>
+The player has four button input. Left and Right arrow keys make the player move left and right respectively. The up arrow key makes the player jump quite high. There is a slow descent time
+which is where the down arrow key comes into play. The down arrow instantly thrusts the player downward. The player wraps around to the other side of the screen when leaving the bounds. So if the player walks
+off to the left, they come back on the same position on the right. This is the same for up and down bounds. This mechanic applies to employees as well. The player's goal is to fire employees by touching them. Employees randomley move around the screen 
+and will spawn at the top of the screen after getting fired. Asteroids recieve a random velocity direction upon every fireing of an employee. The asteroid do not collide with platforms but do collide with 
+the screen bounds. This means the player can espaced asteroids through wrapping around to the other other side of the screen wether that be horizontal or vertical. The player should rely heavily on this mechanic
+to outmaneuver the asteroids.
+</li>
+
+<li><strong>Strategies:</strong>
+A good strategy is to stick to the tops and bottoms of the screen. Dashing down through the bottm with teleport the player to the top. This is where employees spawn. Sticking to the top raises
+the chances of fireing employees quickly as they spawn before they dart away. The bottom is evertually where the employees end up before the fall down through the top. There are openings on the bottom
+that allow the player to quickly dash down out of the way of asteroids, but they must be wary of asteroids floating at the top when they fall back through the top part of the screen.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+The game is set in outer space. The setup is that a fictional corporation named the Space Corpoation owns an asteroid mining facility and needs to make budget cuts by the end of the month. 
+Space Corpoation needs someone to fire as many employees as possible or the company will go bankrupt. 
+The player plays as a fictional space boss that says humorous phrases to the emplpoyees they fire. The tone is meant to be humorus.
+</li>
+
+<li><strong>Target Audience:</strong>
+The target audience is ages 10 - 13 that like humor, platformers, and getting high scores.
+</li>
+
+<li><strong>Play Time:</strong>
+The maximum play time is 100 seconds per session but the player is expected to play a few rounds to get a higher score.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>

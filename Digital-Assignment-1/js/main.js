@@ -72,6 +72,7 @@ class MyScene extends Phaser.Scene {
     }
     
     create() {
+        gameOverBool = false;
         var hit = this.sound.add('hit');
         var collect = this.sound.add('collect');
         if(!musicAlreadyPlaying)
@@ -207,7 +208,7 @@ class MyScene extends Phaser.Scene {
 
         timeEvent = this.time.delayedCall(10000 * 60, hitAsteroid, [], this);
         text = this.add.text(550, 32);
-        timerText = this.add.text(300, 32);
+        //timerText = this.add.text(300, 32);
 
         function gameOver() //game over
         {
@@ -217,7 +218,7 @@ class MyScene extends Phaser.Scene {
 
     update() {
 
-        timerText.setText(timer.toString())
+        //timerText.setText(timer.toString())
 
         if(timer%50==0)
         employees.children.iterate(function (child) 

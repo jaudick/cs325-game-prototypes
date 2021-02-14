@@ -13,7 +13,7 @@ import "./phaser.js";
 let fore,mid,far,back,sky,rock;
 let cursors;
 let player;
-let speed = 5;
+let speed = 25;
 let move = false;
 let attack = false;
 let give = false;
@@ -52,7 +52,8 @@ let wandererTexts = [
 `Traveler... I see you seek the Oasis. I was once on your path, now look at me. 
 Endlessly wandering this desert. I may never find what we seek, but deaths horizon 
 is near for my tired soul. Do you have a water to spare? 
-I would reward you with my map marked with knowledge of this vast desert. You may see in it
+I would reward you with my map marked with knowledge of this vast desert. 
+You may see in it
 what I could never find.
 
 LMB to accept --- RMB to attack`,
@@ -60,7 +61,8 @@ LMB to accept --- RMB to attack`,
 `Hello lost one... the Oasis you seek is no more. 
 It was destroyed long ago by men like you and I. All that is left of the 
 paradise is the dead men once full of desire. I need water to surive this land.
-Do you some to spare? Should you gift me, I will tell of knowledge of a new Oasis.
+Do you have some to spare? Should you gift me, 
+I will tell of knowledge of a new Oasis.
 If you do not, I will take the water from you myself.
 
 LMB to accept --- RMB to attack`,
@@ -99,11 +101,15 @@ class MyScene extends Phaser.Scene {
         this.load.image('sky', 'assets/desert_parts/sky.png');
         this.load.image('rock', 'assets/rock.png');
         this.load.image('oasis', 'assets/oasis.png');
+        this.load.audio('die', 'assets/die.mp3')
+        this.load.audio('attack', 'assets/attack.wav')
+        this.load.audio('accept', 'assets/accept.wav')
         
         this.load.spritesheet('wanderer', 'assets/dworange.png', {frameWidth: 64, frameHeight:70});
         this.load.image('traveler', 'assets/mysterious_transparent.png')
 
         this.load.spritesheet('man', 'assets/DesertRogue.png', {frameWidth: 32, frameHeight: 32});
+        
     }
     
     create() {
@@ -122,6 +128,9 @@ class MyScene extends Phaser.Scene {
         
         cursors = this.input.keyboard.createCursorKeys();
         currentNumberOfClicks = 0;
+        var attackSound = this.sound.add('attack', {volume:0.85});
+        var acceptSound = this.sound.add('accept', {volume:0.85});
+        var dieSound = this.sound.add('die', {volume:0.85});
 
         sky = this.add.tileSprite(400, 400, 1600, 1200, 'sky');
         back = this.add.tileSprite(400, 400, 1600, 1200, 'back');
@@ -146,7 +155,7 @@ class MyScene extends Phaser.Scene {
         this.anims.create({
             key: 'right',
             frames: this.anims.generateFrameNumbers('man', {start:20,end:29}),
-            frameRate:8,
+            frameRate:12,
             repeat:-1
         });
 
@@ -187,7 +196,7 @@ class MyScene extends Phaser.Scene {
         var bg = this.add.image(2000,200,'oasis'); //bg
         bg.setScale(1.5);
 
-        var style = { font: "20px Papyrus", fill: '0000', align: "left" };
+        var style = { font: "20px Papyrus", fill: '000', align: "left" };
         var style2 = { font: "30px Papyrus", fill: '0000', align: "center" };
         text = this.add.text(50, 50, '',style);
         var text2 = this.add.text(300, 350, '',style2);
@@ -207,7 +216,7 @@ class MyScene extends Phaser.Scene {
                 //console.log(currentNumberOfClicks);
                 processStory();
                 
-            }, 2000);
+            }, 3500);
         }
 
 
@@ -259,11 +268,13 @@ class MyScene extends Phaser.Scene {
                         if(give)
                         {
                             goLeft = true;
+                            acceptSound.play()
                             
                         }
 
                         else if(attack)
                         {
+                            attackSound.play()
                             goRight = true;
                         }
                         give = false;
@@ -292,8 +303,10 @@ class MyScene extends Phaser.Scene {
 
                 if(currentNumberOfClicks === 2)
                 {
-                    if(!correctDesicions === 1)
+                    console.log(correctDesicions +'!!!!!!!!!!!!!')
+                    if(correctDesicions !== 1)
                     {
+                        dieSound.play();
                         gameOver = true;
                         player.anims.play('die',8,false);
                         text2.setText('You Got Lost and Died')
@@ -309,8 +322,9 @@ class MyScene extends Phaser.Scene {
 
                 if(currentNumberOfClicks === 4)
                 {
-                    if(!correctDesicions === 2)
+                    if(correctDesicions !== 2)
                     {
+                        dieSound.play();
                         gameOver = true;
                         player.anims.play('die',8,false);
                         text2.setText('You Died from Lack of Water');
@@ -326,8 +340,9 @@ class MyScene extends Phaser.Scene {
 
                 if(currentNumberOfClicks === 6)
                 {
-                    if(!correctDesicions === 3)
+                    if(correctDesicions !== 3)
                     {
+                        dieSound.play();
                         gameOver = true;
                         player.anims.play('die',8,false);
                         text2.setText('You Wandered Too Far and Died');
@@ -344,8 +359,9 @@ class MyScene extends Phaser.Scene {
 
                 if(currentNumberOfClicks === 8)
                 {
-                    if(!correctDesicions === 4)
+                    if(correctDesicions !== 4)
                     {
+                        dieSound.play();
                         gameOver = true;
                         player.anims.play('die',8,false);
                         text2.setText('You Became Hopeless and Died');
@@ -354,6 +370,7 @@ class MyScene extends Phaser.Scene {
 
                     else
                     {
+                        acceptSound.play();
                         bg.x = 300;
                         text2.setText('You Found the Oasis');
                     }
@@ -488,12 +505,15 @@ class IntroScene extends Phaser.Scene
     }
 
     preload() {
+        this.load.audio('song', 'assets/Blade.mp3');
         // Load an image and call it 'logo'.
         this.load.image('introDesert','assets/open-desert.png');
     }
 
     create()
     {
+        var music = this.sound.add('song', {volume:0.5})
+        music.play();
         var style2 = { font: "22px Papyrus", fill: '#fff', align: "center" };
         var desert = this.add.image(400,300,'introDesert');
         desert.setScale(1.3);

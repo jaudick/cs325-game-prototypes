@@ -23,68 +23,83 @@ body
 
 <ul>
 <li><strong>Originality:</strong>
-What is original about your game?
+I would say the entire setting including art style combination is original. The gameplay is straightforward.
 </li>
 
 <li><strong>Technical Merit:</strong>
-What is interesting about your game technology?
+Implementing the story choices with the combination of pausing and waiting for movement actions to complete required technical merit. I had no examples I could work from for how to do this and had to come up with a lot of layered dependencies on my own to make it work. 
+I also took the wanderers you talk to from a flat drawing and used photoshop to make it a tranparent png. I then animated by hand. That was pretty hard.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-What did you learn from this prototype?
-What was the easiest or hardest part of making it?
+I learned how to do dialouge decisions, waiting for actions to complete in realtime, and parallax. The hardest part by far was working with transforming movement input to dialouge choices with the same mouse controls for both. Then making those pause while actions were
+performed was really hard. The easiest thing was parallax. In fact, the only thing moving is the background. The player is totally stationary.
 </li>
 
 <li><strong>Prototype Assets:</strong>
-Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.
 <ul>
-<li>Bouncing Phaser image: <a href="https://phaser.io/download/logo">Phaser logo</a></li>
+<li>Player: <a href="https://opengameart.org/content/desert-rogue">Player</a></li>
+<li>Desert Men: <a href="https://opengameart.org/content/desert-wanderer">Desert Men</a></li>
+<li>Background: <a href="https://opengameart.org/content/seamless-desert-background-in-parts">Background</a></li>
+<li>Intro Image: <a href="https://metaphysicsspeaks.com/wp-content/uploads/2018/09/villeneuves-dune-remake-is-ages-away.jpg">Intro Image</a></li>
+<li>Ground: <a href="https://opengameart.org/content/rock-tileset">Ground</a></li>
+<li>Music was made by me</li>
+<li>Sound Effects were made by me</li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.
+I did not borrow code froms phaser example except for learning how to do implement a repeated tiling background. https://www.phaser.io/examples/v3/view/game-objects/graphics/generate-texture-to-tilesprite.
+My game is kind of like an adventure game but I am not sure what it is close too. I would say it's like Journey and Monkey Island but those are really a stretch. For me, this game was original as I had never played anything like it as a direct inspiration. 
+The biggest story, setting, and thematic inspiration however, was Frank Herbert's Dune.
 </li>
 
 <li><strong>High Concept:</strong>
-A one-sentence summary of your game.
+After crashing your ship on the desert planet of Sikarra, you, a lone traverler, must venture forth 
+into the desolate land to find the rumored Oasis while making critical decisions along your path with the desert wanderers who have roamed these lands for far longer than you.
 </li>
 
 <li><strong>Theme:</strong>
-State which of the Storymatic themes you used.
+The theme I chose was Oasis. I recently read Dune and thought a desert themed game would be fun.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-State which input, randomness, genre, and play style you used in this prototype.
+For input I chose direct. The only input is right and left click. Left click makes you move right and accept decisions, right click is to decline decisions. These inputs are extremley direct with limited freedom on the movement side of things.
+The randomness is completly deterministic. You will get the same wanderers everytime and there is only one correct choice for each. You either live or die with each decision. The play style is the storyteller. The wanderers tell stories
+and the rumored oasis is a rumored story the player searching for. The genre is a puzzle game. You figure out which wanderer decisions will kill you or which will actually help you. 
 </li>
 
 <li><strong>Prototype Goal:</strong>
-What game mechanic is this prototype evaluating?
+This prototype goal was to make dialouge and story decisions. I wanted to make the transfer of movement to dialouge decisions completely seamless and have a smooth in and out to that dynamic. I also wanted decisions to impact the player.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-What experience do you want players to have when playing your game?
+I want the player to feel immersed into the world. The world should feel mytserious and ancient to the player. Then I wanted them to feel like their decisions required percpetive judgments of the people they ecounter, almost like being a detective for their
+own survival. 
 </li>
 
 <li><strong>Gameplay:</strong>
-A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.
+The game has two direct inputs. Left click to move right and travel when wandering. In dialouge decisions, left click to accept or right click to attack and decline. The transition between these two modes is completely seemless. The player must move several clicks to then
+come across a desert wanderer. The player reads the wanderer's proposition and then makes a decision. If it was wrong, the player dies after traveling more. If it was correct, they continue their journey to the Oasis. After all correct decisions, the player reaches the Oasis
+and wins the game.
 </li>
 
 <li><strong>Strategies:</strong>
-What player strategies do you expect will be effective at playing this game?
+The best strategy is to being very wary of the wanderers. Some very cleary want to help you. Others may only want to benefit themeselves.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
-A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.
-How will the dramatic tension interact with the gameplay tension?
+The game takes place on the planet of Sikarra (which is Arrakis backwords so a Dune reference if you have read it), and finds you after crashing your ship on the planet. Knowing of the planets rumored Oasis, you seek the place of legends as it is your only hope
+of survival. The wanderers of the desert of lived on Sikarra for ages and may or may not have seen the Oasis you seek. Each wanderer has a unqiue dialouge tone in what they say and how they speak. There is tension in knowing that each encounter gives a story into 
+these wanderers lives and the Oasis legend.  Inferring their character from their lives and there tales of the Oasis is a matter of life or death for the player.
 </li>
 
 <li><strong>Target Audience:</strong>
-A single sentence that describes the demographic you're trying to reach.
+The target audience is people who like story and dialouge heavy games. Players who like decisions and story first over intense gameplay are the intended players.
 </li>
 
 <li><strong>Play Time:</strong>
-How long does your game take to play?
+The game takes between 2 to 5 minutes to play depending on the number of deaths and how long the player takes to read and decide.
 </li>
 
 </ul>

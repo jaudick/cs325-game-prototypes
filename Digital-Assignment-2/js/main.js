@@ -39,7 +39,7 @@ let processing = false;
 let canDoInput = false;
 let introText = 
 `On the barren planet of Sikarra, you crashed your ship.
-With nowhere way off the planet, the only hope of survival is finding 
+With now way off the planet, the only hope of survival is finding 
 the rumored safehaven of the planet: the Oasis. Many in your shoes 
 have tried and failed to reach this place. Wanderers will be ahead with
 their stories. Will you trust them or will you defend yourself on your

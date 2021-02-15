@@ -216,7 +216,7 @@ class MyScene extends Phaser.Scene {
                 //console.log(currentNumberOfClicks);
                 processStory();
                 
-            }, 3500);
+            }, 4000);
         }
 
 
@@ -290,6 +290,7 @@ class MyScene extends Phaser.Scene {
             }
             else
             {
+                console.log(correctDesicions +'!!!!!!!!!!!!!')
                 if(!move && canMove)
                 {
                     currentNumberOfClicks++;
@@ -303,7 +304,7 @@ class MyScene extends Phaser.Scene {
 
                 if(currentNumberOfClicks === 2)
                 {
-                    console.log(correctDesicions +'!!!!!!!!!!!!!')
+                    
                     if(correctDesicions !== 1)
                     {
                         dieSound.play();
@@ -456,8 +457,8 @@ class MyScene extends Phaser.Scene {
                         goRight = false;
                         canMove = true;
                         currentWanderer.x = 1000;
-                        if(whichWanderer == 1) correctDesicions++;
-                        else if(currentWanderer == 4) correctDesicions++;
+                        if(whichWanderer === 1) correctDesicions++;
+                        else if(whichWanderer === 4) correctDesicions++;
                         canDoInput = true;
                         
                     }
@@ -479,8 +480,8 @@ class MyScene extends Phaser.Scene {
                         goRight = false;
                         canMove = true;
                         currentWanderer.x = 1000;
-                        if(whichWanderer == 2) correctDesicions++;
-                        else if(whichWanderer == 3) correctDesicions++;
+                        if(whichWanderer === 2) correctDesicions++;
+                        else if(whichWanderer === 3) correctDesicions++;
                         canDoInput = true;
                         
                     }

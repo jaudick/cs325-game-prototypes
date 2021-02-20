@@ -162,7 +162,7 @@ class MyScene extends Phaser.Scene {
         function fireTheEmployee(player,employee)
         {
             collect.play();
-            employee.y = 1200
+            employee.y = 1200;
             score++;
             scoreText.setText('Employees Fired: ' + score);
             yellText.setText(firedOptions[firedCycle]);

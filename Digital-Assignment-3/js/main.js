@@ -18,6 +18,7 @@ let physics;
 var score = 0;
 let gameScene;
 let wave = 1;
+let speed = 1;
 
 let isButton1 = false;
 let isButton2 = false; 
@@ -28,7 +29,6 @@ let canFire2 = true;
 let canFire3 = true;
 let canFire4 = true;
 
-let speed = 25;
 let pointer;
 let text;
 
@@ -40,11 +40,10 @@ let introText =
 Now we need to save him from the orcs!
 We don't know why there are orcs on a tropical island, 
 but we don't have time to ask questions!
-Press 1, 2, 3, or 4 to select a cannon from left to right.
-Click with the Left Mouse button on a screen location to fire.
+Click with the Left Mouse button on a fire button to fire!
 You can only fire a cannon once every 3 seconds. 
 Switch between cannons to maximize firepower!
-There are three orc waves ahead! Save Pirate Bob!
+There are 5 orc waves ahead! Save Pirate Bob!
 
 Click Left Mouse Button to Begin!`
 
@@ -64,7 +63,8 @@ class MyScene extends Phaser.Scene {
         this.load.image( 'ship', 'assets/ship.png' );
 
 
-        //this.load.audio('cannon', 'assets/cannon.mp3')
+        this.load.audio('cannonSound', 'assets/cannonSound.wav');
+        this.load.audio('reload', 'assets/reload.mp3');
         
         this.load.spritesheet('bob', 'assets/bob.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('orc', 'assets/orcsEdit.png', {frameWidth: 32, frameHeight: 32});
@@ -86,6 +86,10 @@ class MyScene extends Phaser.Scene {
 
         mainScene = this;    
         cursors = this.input.keyboard.createCursorKeys();
+
+        let cannonSound = this.sound.add('cannonSound', {volume:0.7});
+        let reloadSound = this.sound.add('reload', {volume:0.7});
+        
 
         let bg = this.add.image(400,300,'ocean'); //bg
         bg.setScale(2.8);
@@ -123,7 +127,7 @@ class MyScene extends Phaser.Scene {
                 orcs.ad
                 child.setScale(3.5);
                 child.anims.play('walk',true);   
-                child.setVelocityX((Math.random() * 50) + 100);
+                child.setVelocityX((Math.random() * 50) + 150 * speed);
                 //child.setVelocityY(200);
             });
         }
@@ -132,7 +136,7 @@ class MyScene extends Phaser.Scene {
 
 
         ////////////////bob
-        bob = this.physics.add.sprite(760,475,'bob');
+        bob = this.physics.add.sprite(770,475,'bob');
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('bob', {start:0,end:5}),
@@ -228,6 +232,8 @@ class MyScene extends Phaser.Scene {
                     cannonBall.body.setGravityY(3000);
                     cannonBall.body.setVelocityX(-100);
                     physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    cannonSound.play();
+
                     resetCanFireButton(cannonNumber);
                 }
                 else if(cannonNumber === 2 && canFire2)
@@ -236,6 +242,8 @@ class MyScene extends Phaser.Scene {
                     cannonBall.body.setGravityY(3000);
                     cannonBall.body.setVelocityX(-100);
                     physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    cannonSound.play();
+
                     resetCanFireButton(cannonNumber);
                 }
                 else if(cannonNumber === 3 && canFire3)
@@ -244,6 +252,8 @@ class MyScene extends Phaser.Scene {
                     cannonBall.body.setGravityY(3000);
                     cannonBall.body.setVelocityX(-100);
                     physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    cannonSound.play();
+
                     resetCanFireButton(cannonNumber);
                 }
                 else if(cannonNumber === 4 && canFire4)
@@ -252,6 +262,8 @@ class MyScene extends Phaser.Scene {
                     cannonBall.body.setGravityY(3000);
                     cannonBall.body.setVelocityX(-100);
                     physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    cannonSound.play();
+
                     resetCanFireButton(cannonNumber);
                 }
             }     
@@ -269,12 +281,12 @@ class MyScene extends Phaser.Scene {
             orc.setVelocityX(0);
             cannonBall.disableBody(true,true)
             setTimeout(()=>{orc.disableBody(true,true)},300);
-            console.log(score);
             if(score-14 === 0)
             {
                 gameScene.scene.start('main');
                 wave++;
-                if(wave >= 4)
+                speed+=0.1;
+                if(wave >= 6)
                 {
                     winGame();
                 }
@@ -284,6 +296,8 @@ class MyScene extends Phaser.Scene {
         physics.add.overlap(bob, orcs, killBob, null, this);
         function killBob()
         {
+            wave = 1;
+            speed = 1;
             let style2 = { font: "22px Papyrus", fill: '#fff', align: "center" };
             let gameOverText = this.add.text(400, 525, 'Pirate Bob was eaten by orcs',style2);
             setTimeout(()=>{gameScene.scene.start('main')}, 2000);
@@ -302,7 +316,8 @@ class MyScene extends Phaser.Scene {
                 setTimeout(()=>{
                     button1.setFrame(0);
                     canFire1 = true;
-                }, 3000);
+                    reloadSound.play();
+                }, 2000);
             }
 
             else if(cannonNumber === 2)
@@ -312,7 +327,8 @@ class MyScene extends Phaser.Scene {
                 setTimeout(()=>{
                     button2.setFrame(0);
                     canFire2 = true;
-                }, 3000);
+                    reloadSound.play();
+                }, 2000);
             }
 
             else if(cannonNumber === 3)
@@ -322,7 +338,8 @@ class MyScene extends Phaser.Scene {
                 setTimeout(()=>{
                     button3.setFrame(0);
                     canFire3 = true;
-                }, 3000);
+                    reloadSound.play();
+                }, 2000);
             }
 
             else if(cannonNumber === 4)
@@ -332,7 +349,8 @@ class MyScene extends Phaser.Scene {
                 setTimeout(()=>{
                     button4.setFrame(0);
                     canFire4 = true;
-                }, 3000);
+                    reloadSound.play();
+                }, 2000);
             }
         }
 
@@ -380,10 +398,13 @@ class Intro extends Phaser.Scene
     preload() {
         // Load an image and call it 'logo'.
         this.load.image('intro','assets/intro.png');
+        this.load.audio('song', 'assets/music.mp3');
     }
 
     create()
     {
+        var music = this.sound.add('song', {volume:0.8})
+        music.play();
         let start = this.add.image(470,300,'intro');
         start.setScale(1.2);
         cursors = this.input.keyboard;

@@ -17,12 +17,16 @@ let orcs;
 let physics;
 var score = 0;
 let gameScene;
+let wave = 1;
 
 let isButton1 = false;
 let isButton2 = false; 
 let isButton3 = false; 
 let isButton4 = false;
-let isButton5 = false; 
+let canFire1 = true;
+let canFire2 = true;
+let canFire3 = true;
+let canFire4 = true;
 
 let speed = 25;
 let pointer;
@@ -32,12 +36,17 @@ let gameOver = false;
 let mainScene;
 let canDoInput = false;
 let introText = 
-`Pirate Bob has done it again! He's gotten wasted on the rum. Now we need to save him from the orcs!
-We don't know why there are orcs on a tropical island, but we don't have time to ask questions!
+`Pirate Bob has done it again! He's gotten wasted on the rum. 
+Now we need to save him from the orcs!
+We don't know why there are orcs on a tropical island, 
+but we don't have time to ask questions!
 Press 1, 2, 3, or 4 to select a cannon from left to right.
 Click with the Left Mouse button on a screen location to fire.
-You can only fire a cannon once every two seconds. Switch between cannons to maximize firepower!
-There are three orc waves ahead! Save Pirate Bob!`
+You can only fire a cannon once every 3 seconds. 
+Switch between cannons to maximize firepower!
+There are three orc waves ahead! Save Pirate Bob!
+
+Click Left Mouse Button to Begin!`
 
 class MyScene extends Phaser.Scene {
     
@@ -64,13 +73,15 @@ class MyScene extends Phaser.Scene {
     }
     
     create() {
+
         gameScene = this;
         score = 0;
         isButton1 = false;
         isButton2 = false; 
         isButton3 = false; 
-        isButton1 = false;
-        isButton5 = false; 
+        isButton4 = false;
+
+
         physics = this.physics;
 
         mainScene = this;    
@@ -99,8 +110,8 @@ class MyScene extends Phaser.Scene {
         {
             orcs = physics.add.group({ //creates one child auto so repeat 11 is 12
                 key:'orc', //key image
-                repeat: 12, //12 time
-                setXY: {x:-800,y:460,stepX:75} //start at 12 seperate each one by 70
+                repeat: 14, //12 time
+                setXY: {x:-900,y:460,stepX:50} //start at 12 seperate each one by 70
             });
             iterateOrcs();
         }
@@ -121,7 +132,7 @@ class MyScene extends Phaser.Scene {
 
 
         ////////////////bob
-        bob = this.physics.add.sprite(720,475,'bob');
+        bob = this.physics.add.sprite(760,475,'bob');
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('bob', {start:0,end:5}),
@@ -150,55 +161,55 @@ class MyScene extends Phaser.Scene {
 
         //////////////////////button//////////////////////
         let button1 = this.add.sprite(170, 350, 'fireButton', 0).setInteractive();
-        button1.setFrame(1);
+        button1.setFrame(0);
         button1.setScale(2);
 
         let button2 = this.add.sprite(340, 350, 'fireButton', 0).setInteractive();
-        button2.setFrame(1);
+        button2.setFrame(0);
         button2.setScale(2);
 
         let button3 = this.add.sprite(510, 350, 'fireButton', 0).setInteractive();
-        button3.setFrame(1);
+        button3.setFrame(0);
         button3.setScale(2);
 
         let button4 = this.add.sprite(680, 350, 'fireButton', 0).setInteractive();
-        button4.setFrame(1);
+        button4.setFrame(0);
         button4.setScale(2);
 
         button1.on('pointerover', function () {
             isButton1 = true;
-            this.setFrame(0);
+            //this.setFrame(0);
         });
         button1.on('pointerout', function () {
             isButton1 = false;
-            this.setFrame(1);
+            //this.setFrame(1);
         });
 
         button2.on('pointerover', function () {
             isButton2 = true;
-            this.setFrame(0);
+            //this.setFrame(0);
         });
         button2.on('pointerout', function () {
             isButton2 = false;
-            this.setFrame(1);
+            //this.setFrame(1);
         });
 
         button3.on('pointerover', function () {
             isButton3 = true;
-            this.setFrame(0);
+            //this.setFrame(0);
         });
         button3.on('pointerout', function () {
             isButton3 = false;
-            this.setFrame(1);
+            //this.setFrame(1);
         });
 
         button4.on('pointerover', function () {
             isButton4 = true;
-            this.setFrame(0);
+            //this.setFrame(0);
         });
         button4.on('pointerout', function () {
             isButton4 = false;
-            this.setFrame(1);
+            //this.setFrame(1);
         });
 
 
@@ -208,17 +219,41 @@ class MyScene extends Phaser.Scene {
         {
             if (pointer.leftButtonReleased())
             {
-                let cannonNumber = isButton1 ? 1 : isButton2 ? 2 : isButton3 ? 3 : 4;
                 let whereToSpawnSpriteX = isButton1 ? 150 : isButton2 ? 320 : isButton3 ? 490 : 660;
-                let whereToSpawnSpriteY = 410
-                let cannonBall = physics.add.sprite(whereToSpawnSpriteX,whereToSpawnSpriteY,'cannon');
-                //cannonBall.setBounce(2.0);
-                cannonBall.body.setGravityY(3000);
-                cannonBall.body.setVelocityX(-100);
-
-                physics.add.overlap(cannonBall, orcs, killOrc, null, this);
-                //physics.add.collider(cannonBall,rocks);
-                console.log(cannonNumber);
+                let whereToSpawnSpriteY = 410;
+                let cannonNumber = isButton1 ? 1 : isButton2 ? 2 : isButton3 ? 3 : isButton4 ? 4 : 0;
+                if(cannonNumber === 1 && canFire1)
+                {
+                    let cannonBall = physics.add.sprite(whereToSpawnSpriteX,whereToSpawnSpriteY,'cannon');
+                    cannonBall.body.setGravityY(3000);
+                    cannonBall.body.setVelocityX(-100);
+                    physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    resetCanFireButton(cannonNumber);
+                }
+                else if(cannonNumber === 2 && canFire2)
+                {
+                    let cannonBall = physics.add.sprite(whereToSpawnSpriteX,whereToSpawnSpriteY,'cannon');
+                    cannonBall.body.setGravityY(3000);
+                    cannonBall.body.setVelocityX(-100);
+                    physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    resetCanFireButton(cannonNumber);
+                }
+                else if(cannonNumber === 3 && canFire3)
+                {
+                    let cannonBall = physics.add.sprite(whereToSpawnSpriteX,whereToSpawnSpriteY,'cannon');
+                    cannonBall.body.setGravityY(3000);
+                    cannonBall.body.setVelocityX(-100);
+                    physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    resetCanFireButton(cannonNumber);
+                }
+                else if(cannonNumber === 4 && canFire4)
+                {
+                    let cannonBall = physics.add.sprite(whereToSpawnSpriteX,whereToSpawnSpriteY,'cannon');
+                    cannonBall.body.setGravityY(3000);
+                    cannonBall.body.setVelocityX(-100);
+                    physics.add.overlap(cannonBall, orcs, killOrc, null, this);
+                    resetCanFireButton(cannonNumber);
+                }
             }     
         });
 
@@ -235,10 +270,75 @@ class MyScene extends Phaser.Scene {
             cannonBall.disableBody(true,true)
             setTimeout(()=>{orc.disableBody(true,true)},300);
             console.log(score);
-            if(score-10 === 0)
+            if(score-14 === 0)
             {
                 gameScene.scene.start('main');
+                wave++;
+                if(wave >= 4)
+                {
+                    winGame();
+                }
             }
+        }
+
+        physics.add.overlap(bob, orcs, killBob, null, this);
+        function killBob()
+        {
+            let style2 = { font: "22px Papyrus", fill: '#fff', align: "center" };
+            let gameOverText = this.add.text(400, 525, 'Pirate Bob was eaten by orcs',style2);
+            setTimeout(()=>{gameScene.scene.start('main')}, 2000);
+        }
+
+        let textStyle = { font: "30px Papyrus", fill: '#fff', align: "center" };
+        let waveText = this.add.text(50, 10, '',textStyle);
+        waveText.setText("Wave " + wave.toString());
+
+        function resetCanFireButton(cannonNumber)
+        {
+            if(cannonNumber === 1)
+            {
+                canFire1 = false;
+                button1.setFrame(1);
+                setTimeout(()=>{
+                    button1.setFrame(0);
+                    canFire1 = true;
+                }, 3000);
+            }
+
+            else if(cannonNumber === 2)
+            {
+                canFire2 = false;
+                button2.setFrame(1);
+                setTimeout(()=>{
+                    button2.setFrame(0);
+                    canFire2 = true;
+                }, 3000);
+            }
+
+            else if(cannonNumber === 3)
+            {
+                canFire3 = false;
+                button3.setFrame(1);
+                setTimeout(()=>{
+                    button3.setFrame(0);
+                    canFire3 = true;
+                }, 3000);
+            }
+
+            else if(cannonNumber === 4)
+            {
+                canFire4 = false;
+                button4.setFrame(1);
+                setTimeout(()=>{
+                    button4.setFrame(0);
+                    canFire4 = true;
+                }, 3000);
+            }
+        }
+
+        function winGame()
+        {
+            gameScene.scene.start('win');
         }
     }
     
@@ -249,39 +349,58 @@ class MyScene extends Phaser.Scene {
     }
 }
 
-/*
-class IntroScene extends Phaser.Scene
+class Win extends Phaser.Scene
+{
+    constructor() {
+        super('win');
+    }
+
+    preload() {
+        //this.load.audio('song', 'assets/Blade.mp3');
+        this.load.image('pirateShip','assets/pirates.png');
+    }
+
+    create()
+    {
+        //var music = this.sound.add('song', {volume:0.5})
+        //music.play();
+        let style2 = { font: "38px Papyrus", fill: '#fff', align: "center" };
+        let ship = this.add.image(400,300,'pirateShip');
+        //ship.setScale(1.3);
+        var newText = this.add.text(80, 300, '',style2);
+        newText.setText("We saved Pirate Bob");
+    }
+}
+class Intro extends Phaser.Scene
 {
     constructor() {
         super('intro');
     }
 
     preload() {
-        this.load.audio('song', 'assets/Blade.mp3');
         // Load an image and call it 'logo'.
-        this.load.image('introDesert','assets/open-desert.png');
+        this.load.image('intro','assets/intro.png');
     }
 
     create()
     {
-        var music = this.sound.add('song', {volume:0.5})
-        music.play();
-        var style2 = { font: "22px Papyrus", fill: '#fff', align: "center" };
-        var desert = this.add.image(400,300,'introDesert');
-        desert.setScale(1.3);
-        var newText = this.add.text(100, 170, '',style2);
-        newText.setText(introText);
+        let start = this.add.image(470,300,'intro');
+        start.setScale(1.2);
+        cursors = this.input.keyboard;
+        let style3 = { font: "20px Papyrus", fill: '#fff', align: "left" };
+        text = this.add.text(100, 100,introText,style3);
 
         this.input.on('pointerdown', () => {
             this.scene.start('main') 
         });
     }
-}*/
+}
+
 const game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: 'game',
-    width: 1800,
+    width: 800,
     height: 600,
-    scene: [MyScene],
+    scene: [Intro,MyScene,Win],
     physics: { default: 'arcade' },
     });

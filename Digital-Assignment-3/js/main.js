@@ -41,7 +41,7 @@ Now we need to save him from the orcs!
 We don't know why there are orcs on a tropical island, 
 but we don't have time to ask questions!
 Click with the Left Mouse button on a fire button to fire!
-You can only fire a cannon once every 3 seconds. 
+You can only fire a cannon once every 2 seconds. 
 Switch between cannons to maximize firepower!
 There are 5 orc waves ahead! Save Pirate Bob!
 

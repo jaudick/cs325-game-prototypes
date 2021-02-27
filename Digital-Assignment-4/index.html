@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Pirate Bob and the Island of Orcs</h2>
+
+<ul>
+<li><strong>Originality:</strong>
+I believe the setup is orginial. I have never seen a combination of pirates and orcs. The combination of the setup and the subsequent gameplay is orginial.
+</li>
+
+<li><strong>Technical Merit:</strong>
+The game uses clickable buttons that change graphically for firing cannons with a timed reload mechanic. On top of that, the enemy waves increase in difficulty. The more you progress the harder the gameplay gets.
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+I learned how to make gameplay using on-screen buttons as the main input. I also greatly improved my use of set timeout functions for reloading. 
+The hardest part was making the waves. I initally wanted to throw more enemies with each wave but phaser was having difficulty with my way of spawning enemies offscreen. After a lot of 
+trial and error, I found the sweet spot of enemy spawn numbers and decided the difficulty would be from speed increases.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+<ul>
+<li>Pirate Ship: <a href="https://opengameart.org/content/pirate-ship">Pirate Ship</a></li>
+<li>Orcs: <a href="https://opengameart.org/content/animated-orcs">Orcs</a></li>
+<li>Main Level Background: <a href="https://opengameart.org/content/ocean-background">Ocean Background</a></li>
+<li>Ground Rocks: <a href="https://opengameart.org/content/rock-tileset">Rocks</a></li>
+<li>Pirate Bob: <a href="https://opengameart.org/content/animated-pirate-2">Animated Pirate</a></li>
+<li>Ground Rocks: <a href="https://opengameart.org/content/rock-tileset">Rocks</a></li>
+<li>Win Background: <a href="https://www.sailingeurope.com/blog/wp-content/uploads/2018/12/pirates_16.jpg">Sea and Ship</a></li>
+<li>Intro Background: <a href="https://img1.grunge.com/img/gallery/the-scariest-stories-of-pirate-ghosts/intro-1600435035.jpg">Intro</a></li>
+<li>Reload: <a href="https://freesound.org/people/nioczkus/sounds/396331/">Reload</a></li>
+<li>Cannon: <a href="https://freesound.org/people/Isaac200000/sounds/184650/">Cannon</a></li>
+<li>Music: <a href="https://www.jamendo.com/track/827030/piratee">Music</a></li>
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+I borrowed this code for my inital button setup: https://labs.phaser.io/edit.html?src=src/input%5Cgame%20object%5Csprite%20example.js. I do not know what games this game is like. It is like
+a tower defence/shooter game where you are the towers and you are set with the inital amount of towers throughout the whole game. There is the element of upbeatness and charm like Sea of Thieves but in terms of 
+gameplay I cannot think of anything that I have played like this game.
+</li>
+
+<li><strong>High Concept:</strong>
+Your crew must mount the cannons to save drunk Pirate Bob from waves of tropical island orcs.
+</li>
+
+<li><strong>Theme:</strong>
+The story theme I chose was pirates. I added the twist of orcs though because pirates and skeletons are always used together.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+The input is clickable buttons. The randomness is in between random and deterministic. This is because the orcs have random speeds for each orc but their speed always increases. 
+The reload and cannon projectiles are always the same. The genre is shooter because you shoot cannons to attack orcs. The play style is for the achiever. Since the game is wave based, the achiever must beat each wave to progress to the next one.
+State which input, randomness, genre, and play style you used in this prototype.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+This game is evaluating clickable buttons as the primary input for a shooter and then combining that wave based gameplay. 
+The buttons are the only way you interact with the game and the waves are the means of progression.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+I want the players to find the premise amusing. For the gameplay, I want them to initally feel like the game is easy but then each wave should make them feel like the difficulty is increasing. 
+They should feel that they have control over when to attack and that they use quick mouse manuvering to go back and forth between cannons.
+</li>
+
+<li><strong>Gameplay:</strong>
+The player is introduced the premise and controls at an intro screen. They begin and a large amount of orcs move across the screen from left to right. Pirate Bob is on the right side of the screen as the target of the orcs.
+Ther is a huge pirate ship overlooking the enitre screen that has four fire buttons and four cannons. Pressing a fire button fires that cannon's projectile straight down killing any orcs that it comes in contact with.
+After firing, you cannot fire that cannon for 2 seconds as it has to reload. The button for firing it becomes dim indicating you cannot fire and will brighten once reloaded. The player must switch between cannons
+quickly and defeat five waves of orcs. Each wave increases the speed of the orcs. Defeating the five waves wins the game and saves Pirate Bob.
+</li>
+
+<li><strong>Strategies:</strong>
+I bleive the best strategies is to fire the second first and then fire the first gun. This takes care of two groups quickly rather than waiting for a second group to enter the range of the second cannon.
+Firing the first cannons while also firing the last cannon is essential to managing relaods equally across all cannons.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+The premise is that Pirate Bob, a member of your pirate crew, got drunk off the rum again and ended up on an island of orcs that are out to eat him. His only hope of not being eaten
+is if your crew mounts the cannons and defends him from 5 waves of orcs. The setup is orignial because orcs and pirates are not commonly put together. The premise is meant to be humorous.  
+</li>
+
+<li><strong>Target Audience:</strong>
+The target audience is fans of pirate themed games and tower defence like games.
+</li>
+
+<li><strong>Play Time:</strong>
+The game takes 2 to 5 minutes depending on how many times the player fails.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>

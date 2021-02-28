@@ -14,8 +14,13 @@ let cursors;
 let player;
 
 let physics;
-var score = 0;
+let player1Score = 0;
+let player2Score = 0;
+let player1ScoreText;
+let player2ScoreText;
+let playerWhoOne = 0;
 let gameScene;
+let maxVelocity = 200;
 
 let pointer;
 let text;
@@ -34,14 +39,25 @@ let player2Marine;
 let gameOver = false;
 let mainScene;
 let introText = 
-`Pirate Bob has done it again! He's gotten wasted on the rum. 
-Now we need to save him from the orcs!
-We don't know why there are orcs on a tropical island, 
-but we don't have time to ask questions!
-Click with the Left Mouse button on a fire button to fire!
-You can only fire a cannon once every 2 seconds. 
-Switch between cannons to maximize firepower!
-There are 5 orc waves ahead! Save Pirate Bob!
+`We have engaged the enemy in all out war.
+Our only problems are that our troops are 
+not trained, our guns are too heavy for us
+to move and our big guns cannot hurt 
+the enemy heavy gunner. We must shoot 
+our own troops for them to fire their 
+small guns at the enemy's heavy gunner.
+Small troops will block each others shots.
+Big guns cannot damage small troops either. 
+The enemy is also controlled by a human 
+and in the exact same predicament.
+
+Heavy Gunner 1: 
+Aim with Left and Right Arrows
+Fire with Up Arrow
+
+Heavy Gunner 2:
+Aim with A and D
+Fire with W
 
 Click Left Mouse Button to Begin!`
 
@@ -64,13 +80,13 @@ class MyScene extends Phaser.Scene {
         this.load.image('ground', 'assets/Ground.png');
 
 
-        //this.load.audio('reload', 'assets/reload.mp3');      
+        this.load.audio('laserSound', 'assets/laserSound.wav'); 
+        this.load.audio('bigLaserSound', 'assets/bigLaser.wav');     
     }
     
     create() {
 
         gameScene = this;
-        score = 0;
         physics = this.physics;
         mainScene = this;
         canFire1 = true;
@@ -82,8 +98,12 @@ class MyScene extends Phaser.Scene {
             left:Phaser.Input.Keyboard.KeyCodes.LEFT,
             right:Phaser.Input.Keyboard.KeyCodes.RIGHT,
             up:Phaser.Input.Keyboard.KeyCodes.UP});
+        
+        player1Score = 0;
+        player2Score = 0;
 
-        //let cannonSound = this.sound.add('cannonSound', {volume:0.7});
+        let laserSound = this.sound.add('laserSound', {volume:0.7});
+        let bigLaserSound = this.sound.add('bigLaserSound', {volume:0.7});
         
 
         let bg = this.add.image(400,400,'ground'); //bg
@@ -95,24 +115,20 @@ class MyScene extends Phaser.Scene {
         player2.setScale(0.4,0.4);
         player2.angle = 180;
 
-        player1Marine = physics.add.image(400,350,'playerOneMarine');
+        player1Marine = physics.add.image(400,375,'playerOneMarine');
         player1Marine.setScale(0.35,0.35);
-        player2Marine = physics.add.image(400,250,'playerTwoMarine');
+        player2Marine = physics.add.image(400,225,'playerTwoMarine');
         player2Marine.setScale(0.35,0.35);
         player2Marine.angle = 180;
 
-        player1Marine.setVelocityX(75);
-        player2Marine.setVelocityX(-75);
+        player1Marine.setVelocityX(maxVelocity);
+        player2Marine.setVelocityX(-maxVelocity);
 
 
-        var style = { font: "30px Arial", fill: '0000', align: "center" };
-        text = this.add.text(50, 50, '',style);
-
-
-
-
-
-        
+        //var style = { font: "20px", fill: '#ffff', align: "center" };
+        //player1ScoreText = this.add.text(50, 550, "Points: " + player1Score,style);
+        //player2ScoreText = this.add.text(650,50, "Points: " + player2Score,style);
+        /*  
         this.input.mouse.disableContextMenu();
         this.input.on('pointerup', function(pointer)
         {
@@ -120,65 +136,119 @@ class MyScene extends Phaser.Scene {
             {
             }
         })
-
-
         const reset = () =>
         {
             mainScene.scene.start('main');
+        }*/
+
+        const killPlayer2 = (laser, player2) =>
+        {
+            laser.disableBody(true,true);
+            player2.disableBody(true,true);
+            player1Score++;
+            winGame();
         }
 
-        
-
-        //physics.add.overlap(bob, orcs, killBob, null, this);
-
-        let textStyle = { font: "30px Papyrus", fill: '#fff', align: "center" };
-
+        const killPlayer1 = (laser, player1) =>
+        {
+            laser.disableBody(true,true);
+            player1.disableBody(true,true);
+            player2Score++;
+            winGame();
+        }
 
         shootPlayerOne = () =>
         {
             if(canFire1)
             {
+                bigLaserSound.play();
                 let blueLaser = physics.add.image(400,525,'blueLaser');
                 blueLaser.setVelocity(player1.angle*4, -200);
                 canFire1 = false;
+                blueLaser.angle = player1.angle;
+                blueLaser.setScale(1.5);
+
+                physics.add.overlap(blueLaser, player1Marine, shootPlayerOneMarine, null, this);
                 setTimeout(()=>{
                     canFire1 = true;
-                    reloadSound.play();
-                }, 1500);
+                    //reloadSound.play();
+                }, 1000);
             }
         }
 
-        shootPlayerOneMarine = () =>
+        shootPlayerOneMarine = (blueLaserCollision,marine) =>
         {
+            blueLaserCollision.disableBody(true,true);
+            laserSound.play();
             let blueLaser = physics.add.image(player1Marine.x,player1Marine.y,'blueLaser');
             blueLaser.setVelocity(player1Marine.angle*2, -200);
+            blueLaser.angle = player1Marine.angle;
+            blueLaser.setScale(0.75);
+            physics.add.overlap(blueLaser, player2, killPlayer2, null, this);
+            physics.add.overlap(blueLaser, player2Marine, blockLaser, null, this);
         }
 
-        shootPlayerTwoMarine = () =>
+        shootPlayerTwoMarine = (redLaserCollision, marine) =>
         {
+            redLaserCollision.disableBody(true,true);
+            laserSound.play();
             let redLaser = physics.add.image(player2Marine.x,player2Marine.y,'redLaser');
             let angle = player2Marine.angle > 0 ? -(player2Marine.angle - 180) + 10 : -(player2Marine.angle + 180) - 10;
             redLaser.setVelocity((angle)*4, 200);
+            redLaser.angle = player2Marine.angle;
+            redLaser.setScale(0.75);
+            physics.add.overlap(redLaser, player1, killPlayer1, null, this);
+            physics.add.overlap(redLaser, player1Marine, blockLaser, null, this);
         }
 
         shootPlayerTwo = () =>
         {
             if(canFire2)
             {
+                bigLaserSound.play();
                 let redLaser = physics.add.image(400,75,'redLaser');
                 let angle = player2.angle > 0 ? -(player2.angle - 180) + 10 : -(player2.angle + 180) - 10;
                 redLaser.setVelocity((angle)*4, 200);
                 canFire2 = false;
+                redLaser.angle = player2.angle;
+                redLaser.setScale(1.5);
+
+                physics.add.overlap(redLaser, player2Marine, shootPlayerTwoMarine, null, this);
                 setTimeout(()=>{
                     canFire2 = true;
-                    reloadSound.play();
-                }, 1500);
+                    //reloadSound.play();
+                }, 1000);
             }
+        }
+
+        const blockLaser = (laser, marine) =>
+        {
+            laser.disableBody(true,true);
         }
 
         function winGame()
         {
-            //gameScene.scene.start('win');
+            if(player1Score == 1)
+            {
+                playerWhoOne = 1;
+                setTimeout(()=>{
+                    gameScene.scene.start('win');
+                }, 1000); 
+            }
+            else if(player2Score == 1)
+            {
+                playerWhoOne = 2;
+                setTimeout(()=>{
+                    gameScene.scene.start('win');
+                }, 1000);
+            }
+            /*
+            else 
+            {
+                setTimeout(()=>{
+                    gameScene.scene.start('main');
+                }, 1000);
+            }*/
         }
     }
     
@@ -204,18 +274,17 @@ class MyScene extends Phaser.Scene {
         if(cursors.up.isDown && canFire1)
         {
             shootPlayerOne();
-            shootPlayerOneMarine();
-            console.log('up');
+            //shootPlayerOneMarine();
         }
 
         if(player1Marine.x >= 800)
         {
-            player1Marine.setVelocityX(-75);
+            player1Marine.setVelocityX(-maxVelocity);
         }
 
         if(player1Marine.x <= 0)
         {
-            player1Marine.setVelocityX(75);
+            player1Marine.setVelocityX(maxVelocity);
         }
 
         player1Marine.angle += 2;
@@ -228,7 +297,6 @@ class MyScene extends Phaser.Scene {
                 player2.angle -= 10;
             }
             else player2.angle += 1;
-            console.log(angle)
         } 
         else if (cursors.right2.isDown)
         {
@@ -238,30 +306,28 @@ class MyScene extends Phaser.Scene {
                 player2.angle += 10;
             }
             else player2.angle -= 1;
-            console.log(angle)
         }
 
         if(cursors.up2.isDown && canFire2)
         {
             shootPlayerTwo();
-            shootPlayerTwoMarine();
-            console.log('up2');
+            //shootPlayerTwoMarine();
         }
 
         if(player2Marine.x >= 800)
         {
-            player2Marine.setVelocityX(-75);
+            player2Marine.setVelocityX(-maxVelocity);
         }
 
         if(player2Marine.x <= 0)
         {
-            player2Marine.setVelocityX(75);
+            player2Marine.setVelocityX(maxVelocity);
         }
         player2Marine.angle += 2;
         
     }
 }
-/*
+
 class Win extends Phaser.Scene
 {
     constructor() {
@@ -269,18 +335,27 @@ class Win extends Phaser.Scene
     }
 
     preload() {
-        this.load.image('pirateShip','assets/pirates.png');
+        this.load.image('bigun','assets/bigun.jfif');
     }
 
     create()
     {
+        cursors = this.input.keyboard;
         let style2 = { font: "38px Papyrus", fill: '#fff', align: "center" };
-        let ship = this.add.image(400,300,'pirateShip');
-        //ship.setScale(1.3);
-        var newText = this.add.text(80, 300, '',style2);
-        newText.setText("We saved Pirate Bob");
+        let win = this.add.image(400,525,'bigun');
+        win.setScale(1.1);
+        var newText = this.add.text(100, 300, '',style2);
+        newText.setText(`Player ${playerWhoOne} Wins`);
+
+        let style3 = { font: "20px Papyrus", fill: '000', align: "center" }
+        var newText2 = this.add.text(500, 50, '',style3);
+        newText2.setText(`Click LMB to Fight Again`);
+        this.input.on('pointerdown', () => {
+            this.scene.start('main') 
+        });
     }
 }
+
 class Intro extends Phaser.Scene
 {
     constructor() {
@@ -288,31 +363,31 @@ class Intro extends Phaser.Scene
     }
 
     preload() {
-        this.load.image('intro','assets/intro.png');
-        this.load.audio('song', 'assets/music.mp3');
+        this.load.image('intro','assets/intro.jpg');
+        this.load.audio('song', 'assets/bass.mp3');
     }
 
     create()
     {
-        var music = this.sound.add('song', {volume:0.8})
+        var music = this.sound.add('song', {volume:0.6})
         music.play();
-        let start = this.add.image(470,300,'intro');
-        start.setScale(1.2);
+        let start = this.add.image(410,400,'intro');
+        start.setScale(0.8);
         cursors = this.input.keyboard;
-        let style3 = { font: "20px Papyrus", fill: '#fff', align: "left" };
-        text = this.add.text(100, 100,introText,style3);
+        let style3 = { font: "25px", fill: '#FFFF00', align: "left" };
+        text = this.add.text(100, 50,introText,style3);
 
         this.input.on('pointerdown', () => {
             this.scene.start('main') 
         });
     }
-}*/
+}
 
 const game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: 'game',
     width: 800,
     height: 600,
-    scene: [MyScene],
+    scene: [Intro,MyScene, Win],
     physics: { default: 'arcade' },
     });

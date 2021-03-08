@@ -28,32 +28,34 @@ shots at the enemy becuase your bullets cannot damage them. On top of that, the 
 </li>
 
 <li><strong>Technical Merit:</strong>
+ITERATION IMPROVEMENT: Getting a stage selection to work with the addition of a new single player gamemode was a tehcnically challenging as these stage and selection choices are made in a main menu. 
 Using bullets to fire the rotation the sprite was facing was really difficult. This is because phaser uses a negative axis past 180 so it goes from 180 to -179. 
-This made the direction the bullets 
-shoot hard to code for the top player since he is always switching between -180 and +180 constantly. Making the multiplayer was a challenge too. I started with no phaser examples for this game.
+This made the direction the bullets shoot hard to code for the top player since he is always switching between -180 and +180 constantly. Making the multiplayer was a challenge too. I started with no phaser examples for this game.
+ITERATION IMPROVEMENT: The hardest part of this iteration was as metioned before maintaining angle persistance for the AI players as it crosses the 180 and -180 line going down. Keeping the bullet velocity and angle to stay 
+consistent and the roation of the automatic AI was an expansion of the multiplayer input that was still a challenge.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-I learned how to make a multiplayer game that uses indirect fire to damage your opponent. 
-Instead if shooting the enemy directly, I evalutated shooting your teamate to make them shoot the enemy indirectly. 
-This is my favorite prototype I made for this class yet and I believe it is the most fun and original one I've made so far.
+I learned how to iterate on a multiplayer game and give it a single player option. I also learned how to implement stage selection that carries across scenes.
 </li>
 
 <li><strong>Prototype Assets:</strong>
 <ul>
 <li>All Soldier Sprites: <a href="https://opengameart.org/content/top-down-sci-fi-shooter-pack">Soldiers</a></li>
 <li>Lasers: <a href="https://opengameart.org/content/lasers-and-beams">Laser</a></li>
-<li>Ground: <a href="https://opengameart.org/content/top-down-sci-fi-shooter-pack">Ground</a></li>
+<li>Rock Ground: <a href="https://opengameart.org/content/top-down-sci-fi-shooter-pack">Ground</a></li>
 <li>Victory Image: <a href="https://th.bing.com/th/id/Rbb13651c32107a556bd7d0e322cec6c7?rik=eSefRfv0YWq9wg&riu=http%3a%2f%2fwhec-assets-live.s3.amazonaws.com%2f2014%2f10%2f43448_bb13651c32107a556bd7d0e322cec6c7.jpg&ehk=xo1KBT%2fqWMj%2b%2bV9d2f0qFvBwbpB%2f9FNUd35ttNEBrVQ%3d&risl=&pid=ImgRaw">Victory</a></li>
 <li>Intro Image: <a href="https://usercontent1.hubstatic.com/8742986_f520.jpg">Intro Image</a></li>
 <li>Music: <a href="https://freemusicarchive.org/music/Synapsis">Music</a></li>
 <li>Small Laser Sound: <a href="https://freesound.org/people/michael_grinnell/sounds/512469/">Big Laser Sound</a></li>
-<li>Big Laser Sound: <a href="https://freesound.org/people/wcoltd/sounds/440776/">Big Laser Sound</a></li>
+<li>Snow: <a href="https://opengameart.org/content/tower-defense-snow-background">Snow</a></li>
+<li>Sand: <a href="https://opengameart.org/content/tower-defense-dirt-background">Sand</a></li>
+<li>Grass: <a href="https://opengameart.org/content/tower-defense-grass-background">Grass</a></li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-I did not use any phaser examples for this game. I cannot think of any other games like this that I have played. The aesthetic is influenced by sci fi shooters but the gameplay is entirely original.
+The closest other game is my game for Digital Assignment 4 as this is an iteration with a single player expansion and stage selection options. 
 </li>
 
 <li><strong>High Concept:</strong>
@@ -71,7 +73,8 @@ the objective is to beat your opponent.
 </li>
 
 <li><strong>Prototype Goal:</strong>
-The goal of this prototype was to make a multiplayer game that uses indirect input. Instead if shooting the enemy directly, 
+The goal of this prototype was to make a single player version of the multiplayer game I made previously from Digital Assignment 4. I also wanted to add stage selection variety for the player since
+the game is supposed be an 'all out war'. Instead if shooting the enemy directly, 
 you shoot something else that deals damage to your opponent. I wanted to make that action very challenging and also very rewarding when it works. This is why your teammate spins and that their bullets block each other
 so that you cannot just aim straight and eventually a straight shot will hit them. The goal was for players to think indirectly about the input available to them.
 </li>
@@ -83,7 +86,8 @@ blocking it. All these elements should make finally landing a shot successfully 
 </li>
 
 <li><strong>Gameplay:</strong>
-Two player are placed facing directly across from each other. They cannot move because their guns are too heavy and their bullets cannot damage each other. Each player has an untrained
+ITERATION IMPROVEMENT: For the newly created single player game mode, the AI shoots faster than the player and the enemies bullet from their marine shoots three bullets instead of one increasing the challenge of the game significantly.
+Two players are placed facing directly across from each other. They cannot move because their guns are too heavy and their bullets cannot damage each other. Each player has an untrained
 teammate ahead of them that spins constantly. This teammate cannot be damaged by the opponent and will block the opponents teammate's shots. The gameplay consists of aiming your shot
 to fire at the exact moment where it will land on your teammate who will then fire their shot it the direction they are facing. If their shot hits the other player's teammate, the shot 
 is destroyed. When your teammate's shot hits the opponent, you win.
@@ -95,6 +99,7 @@ That mid area is the highest chance of accuracy while avoiding getting blocked.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
+ITERATION IMPROVEMENT: There are now in this iteration 4 stage options: rock, snow, sand, and grass for the settings of battlefields.
 The premise is that two sci-fi factions are at war but their guns are too heavy. They are so heavy that they can't move but they have small untrained soliders who can. Only by shooting
 their own soldiers can they damage the other factions immobile heavy gunner.
 </li>

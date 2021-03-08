@@ -16,6 +16,9 @@ let randomNumber = (min, max) => {
     return Math.random() * (max - min) + min; 
 };
 
+let bgNumber = 1;
+let gameMode;
+
 let physics;
 let player1Score = 0;
 let player2Score = 0;
@@ -83,6 +86,9 @@ class Multiplayer extends Phaser.Scene {
         this.load.image( 'blueLaser', 'assets/blueLaserOne.png' );
         this.load.image( 'redLaser', 'assets/redLaserOne.png' );
         this.load.image('ground', 'assets/Ground.png');
+        this.load.image('grass', 'assets/grass.jpg');
+        this.load.image('sand', 'assets/sand.jpg');
+        this.load.image('snow', 'assets/snow.jpg');
 
 
         this.load.audio('laserSound', 'assets/laserSound.wav'); 
@@ -111,8 +117,27 @@ class Multiplayer extends Phaser.Scene {
         let bigLaserSound = this.sound.add('bigLaserSound', {volume:0.7});
         
 
-        let bg = this.add.image(400,400,'ground'); //bg
-        bg.setScale(2.8);
+        let bg;
+        if(bgNumber == 1)
+        {
+            bg = this.add.image(400,400,'ground'); //bg
+            bg.setScale(2.5); 
+        }
+        else if(bgNumber == 2)
+        {
+            bg = this.add.image(400,300,'snow'); //bg
+            bg.setScale(4); 
+        }
+        else if(bgNumber == 3)
+        {
+            bg = this.add.image(400,300,'sand'); //bg
+            bg.setScale(4); 
+        }
+        else if(bgNumber == 4)
+        {
+            bg = this.add.image(400,300,'grass'); //bg
+            bg.setScale(4); 
+        }
 
         player1 = physics.add.image(400,525,'playerOne');
         player1.setScale(0.4,0.4);
@@ -349,6 +374,9 @@ class SinglePlayer extends Phaser.Scene {
         this.load.image( 'blueLaser', 'assets/blueLaserOne.png' );
         this.load.image( 'redLaser', 'assets/redLaserOne.png' );
         this.load.image('ground', 'assets/Ground.png');
+        this.load.image('grass', 'assets/grass.jpg');
+        this.load.image('sand', 'assets/sand.jpg');
+        this.load.image('snow', 'assets/snow.jpg');
 
 
         this.load.audio('laserSound', 'assets/laserSound.wav'); 
@@ -376,9 +404,29 @@ class SinglePlayer extends Phaser.Scene {
         let laserSound = this.sound.add('laserSound', {volume:0.7});
         let bigLaserSound = this.sound.add('bigLaserSound', {volume:0.7});
         
+        let bg;
+        if(bgNumber == 1)
+        {
+            bg = this.add.image(400,400,'ground'); //bg
+            bg.setScale(2.5); 
+        }
+        else if(bgNumber == 2)
+        {
+            bg = this.add.image(400,300,'snow'); //bg
+            bg.setScale(4); 
+        }
+        else if(bgNumber == 3)
+        {
+            bg = this.add.image(400,300,'sand'); //bg
+            bg.setScale(4); 
+        }
+        else if(bgNumber == 4)
+        {
+            bg = this.add.image(400,300,'grass'); //bg
+            bg.setScale(4); 
+        }
 
-        let bg = this.add.image(400,400,'ground'); //bg
-        bg.setScale(2.8);
+
 
         player1 = physics.add.image(400,525,'playerOne');
         player1.setScale(0.4,0.4);
@@ -454,6 +502,22 @@ class SinglePlayer extends Phaser.Scene {
             redLaser.setScale(0.75);
             physics.add.overlap(redLaser, player1, killPlayer1, null, this);
             physics.add.overlap(redLaser, player1Marine, blockLaser, null, this);
+
+            let redLaser2 = physics.add.image(player2Marine.x,player2Marine.y,'redLaser');
+            angle = player2Marine.angle > 0 ? -(player2Marine.angle - 180) + 10 : -(player2Marine.angle + 180) - 10;
+            redLaser2.setVelocity((angle+10)*4, 200);
+            redLaser2.angle = player2Marine.angle + 10;
+            redLaser2.setScale(0.75);
+            physics.add.overlap(redLaser2, player1, killPlayer1, null, this);
+            physics.add.overlap(redLaser2, player1Marine, blockLaser, null, this);
+
+            let redLaser3 = physics.add.image(player2Marine.x,player2Marine.y,'redLaser');
+            angle = player2Marine.angle > 0 ? -(player2Marine.angle - 180) + 10 : -(player2Marine.angle + 180) - 10;
+            redLaser3.setVelocity((angle+5)*4, 200);
+            redLaser3.angle = player2Marine.angle + 5;
+            redLaser3.setScale(0.75);
+            physics.add.overlap(redLaser3, player1, killPlayer1, null, this);
+            physics.add.overlap(redLaser3, player1Marine, blockLaser, null, this);
         }
 
         shootPlayerTwo = () =>
@@ -472,7 +536,7 @@ class SinglePlayer extends Phaser.Scene {
                 setTimeout(()=>{
                     canFire2 = true;
                     //reloadSound.play();
-                }, 1000);
+                }, 750);
             }
         }
 
@@ -594,6 +658,62 @@ class Win extends Phaser.Scene
     }
 }
 
+
+class BG extends Phaser.Scene
+{
+    constructor() {
+        super('bg');
+    }
+
+    preload() {
+        this.load.image('intro','assets/intro.jpg');
+        this.load.audio('song', 'assets/bass.mp3');
+    }
+
+    create()
+    {
+        //var music = this.sound.add('song', {volume:0.6})
+        //music.play();
+        let start = this.add.image(410,400,'intro');
+        start.setScale(0.8);
+        cursors = this.input.keyboard.createCursorKeys();
+        let style3 = { font: "40px", fill: '#FFFF00', align: "left" };
+        text = this.add.text(-100, 75,"",style3);
+        text.setText(
+            `
+            Level Selection
+
+            Rocks : Left Arrow
+            Snow : Up Arrow
+            Sand : Right Arrow
+            Grass : Down Arrow`);
+
+         
+    }
+    update()
+    {
+        if(cursors.left.isDown)
+        {
+            bgNumber = 1;
+            this.scene.start(gameMode)
+        }
+        else if(cursors.up.isDown)
+        {
+            bgNumber = 2;
+            this.scene.start(gameMode)
+        }
+        else if(cursors.right.isDown)
+        {
+            bgNumber = 3;
+            this.scene.start(gameMode)
+        }
+        else if(cursors.down.isDown)
+        {
+            bgNumber = 4;
+            this.scene.start(gameMode)
+        }
+    }
+}
 class WinSingle extends Phaser.Scene
 {
     constructor() {
@@ -648,9 +768,15 @@ class Intro extends Phaser.Scene
     update()
     {
         if(cursors.left.isDown)
-            this.scene.start('single')
+        {
+            gameMode = 'single';
+            this.scene.start('bg')
+        }
         if(cursors.right.isDown)
-            this.scene.start('main')
+        {
+            gameMode = 'main';
+            this.scene.start('bg')
+        }
     }
 }
 
@@ -659,6 +785,6 @@ const game = new Phaser.Game({
     parent: 'game',
     width: 800,
     height: 600,
-    scene: [Intro,Multiplayer,SinglePlayer, Win, WinSingle],
+    scene: [Intro,Multiplayer,SinglePlayer, Win, WinSingle, BG],
     physics: { default: 'arcade' },
     });

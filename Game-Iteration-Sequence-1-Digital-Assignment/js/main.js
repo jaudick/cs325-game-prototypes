@@ -12,12 +12,14 @@ import "./phaser.js";
 // The simplest class example: https://phaser.io/examples/v3/view/scenes/scene-from-es6-class
 let cursors;
 let player;
+/*
 let randomNumber = (min, max) => {  
     return Math.random() * (max - min) + min; 
-};
+};*/
 
+let score = 0;
 let timer = 0;
-let timeToSpawn = 3;
+let timeToSpawn = 1;
 let whichSide = 1;
 let physics;
 let enemiesShoot;
@@ -25,36 +27,30 @@ let enemiesTop;
 let enemiesBottom;
 let enemiesLeft;
 let enemiesRight;
-let gameOver = false;
+//let gameOver = false;
 let mainScene;
 let introText = 
-`We have engaged the enemy in all out war.
-Our only problems are that our troops are 
-not trained, our guns are too heavy for us
-to move and our big guns cannot hurt 
-the enemy heavy gunner. We must shoot 
-our own troops for them to fire their 
-small guns at the enemy's heavy gunner.
-Small troops will block each others shots.
-Big guns cannot damage small troops either. 
-The enemy is also controlled by a human 
-and in the exact same predicament.
+`It's an ambush!
 
-Heavy Gunner 1: 
-Aim with Left and Right Arrows
-Fire with Up Arrow
+We are surrounded with only 30 bullets remaining.
+The enenmy is alternating their shots from both sides.
+They will keep shooting until all of them are hit once.
+If a bullet hits your head you will be K.I.A.
+If you make physcial contact with an enemy you will be K.I.A.
+Victory is only achieved by defeating them all.
 
-Heavy Gunner 2:
-Aim with A and D
-Fire with W
+Move: LEFT,RIGHT,UP,DOWN -> ARROW KEYS
+Look: W,A,S,D
+Shoot: Spacebar
 
-Click Left Arrow for Singleplayer!
-Click Right Arrow for Multiplayer!`
+Save us soldier!`
 
-
+let bullets = 30;
+let enemiesRemaining = 28;
+let bulletText;
 let speed = 200;
 let playerBulletVelocity = 500;
-let enemyBulletVelocity = 150;
+let enemyBulletVelocity = 300;
 let canShoot = true;
 let shoot = undefined;
 let direction = "right";
@@ -72,12 +68,18 @@ class SinglePlayer extends Phaser.Scene {
         this.load.image( 'enemy', 'assets/badguy2.png');
         this.load.image('bullet', 'assets/bulletYellow.png')
         this.load.image('bulletRed', 'assets/bulletred.png')
-        this.load.image('sand', 'assets/sand.jpg');
+        this.load.image('sand', 'assets/sand2.png');
         
-        //this.load.audio('bigLaserSound', 'assets/bigLaser.wav');     
+        this.load.audio('shot1', 'assets/gun1.wav');
+        this.load.audio('shot2', 'assets/gun2.wav');  
+        this.load.audio('hit', 'assets/shout1.wav');   
+        this.load.audio('hit2', 'assets/shout2.mp3')
     }
     
     create() {
+        score = 0;
+        enemiesRemaining = 28;
+        bullets = 30;
         timer = timeToSpawn;
         direction = "right";
         whichSide = 1;
@@ -96,16 +98,25 @@ class SinglePlayer extends Phaser.Scene {
             shoot:Phaser.Input.Keyboard.KeyCodes.SPACE
         });
         
+        let shoot1 = this.sound.add('shot1', {volume:0.3});
+        let shoot2 = this.sound.add('shot2', {volume:0.7});
+        let hit = this.sound.add('hit', {volume:1});
+        let hit2 = this.sound.add('hit2', {volume:1});
+
 
         //let laserSound = this.sound.add('laserSound', {volume:0.7});
         //startGame();
         let bg;
         bg = this.add.image(400,300,'sand'); //bg
-        bg.setScale(4);
+        bg.setScale(3.9);
 
         player = physics.add.image(300,300,'player');
-        player.setScale(0.2,0.2);
+        player.setScale(0.19,0.19);
         player.setCollideWorldBounds(true);
+        player.body.setSize(40, 40, 60, 60);
+
+        bulletText = this.add.text(10,4,`Bullets Remaining: ${bullets}`);
+        let enemyText = this.add.text(580,4,`Enemies Remaining: ${enemiesRemaining}`);
 
         enemiesTop = this.physics.add.group({
             key:'enemy', //key image
@@ -150,18 +161,24 @@ class SinglePlayer extends Phaser.Scene {
 
         function enemiesHit(bullet, other)
         {
+            enemiesRemaining--;
+            enemyText.setText(`Enemies Remaining: ${enemiesRemaining}`)
+            hit.play();
+            if(enemiesRemaining==0) win();
             other.setTint(0xff0000);
             bullet.disableBody(true,true);
         }
 
         enemiesShoot = function (enemies, direction, skipParameter)
         {
+            shoot1.play();
             let skip = skipParameter;
             enemies.children.iterate(function (child) 
             {
                 if(!skip)
                 {
                     let enemyBullet = physics.add.image(child.x,child.y,'bulletRed');
+                    enemyBullet.setTint(0x0000)
                     let velocityX = direction == "right" ? enemyBulletVelocity : direction == "left" ? -enemyBulletVelocity : 0;
                     let velocityY = direction == "up" ? -enemyBulletVelocity: direction == "down" ? enemyBulletVelocity : 0;
                     enemyBullet.setVelocity(velocityX,velocityY);
@@ -180,12 +197,25 @@ class SinglePlayer extends Phaser.Scene {
 
         function playerDie()
         {
-            player.setTint(0xff0000);
-            mainScene.scene.start('main')
+            hit2.play()
+            //player.setTint(0xff0000);
+            mainScene.scene.start('lose')
+        }
+
+        function win()
+        {
+            mainScene.scene.start('win')
         }
 
         shoot = () =>
         {
+            shoot2.play()
+            bullets--;
+            if(bullets <= 0)
+            {
+                playerDie();
+            }
+            bulletText.setText(`Bullets Remaining: ${bullets}`)
             let playerBullet = physics.add.image(player.x,player.y,'bullet');
             let velocityX = direction == "right" ? playerBulletVelocity : direction == "left" ? -playerBulletVelocity : 0;
             let velocityY = direction == "up" ? -playerBulletVelocity : direction == "down" ? playerBulletVelocity : 0;
@@ -283,7 +313,7 @@ class SinglePlayer extends Phaser.Scene {
     }
 }
 
-/*
+
 class Win extends Phaser.Scene
 {
     constructor() {
@@ -291,110 +321,54 @@ class Win extends Phaser.Scene
     }
 
     preload() {
-        this.load.image('bigun','assets/bigun.jfif');
+        this.load.image('bg2','assets/bg2.png');
     }
 
     create()
     {
-        cursors = this.input.keyboard;
-        let style2 = { font: "38px Papyrus", fill: '#fff', align: "center" };
-        let win = this.add.image(400,525,'bigun');
-        win.setScale(1.1);
-        var newText = this.add.text(100, 300, '',style2);
-        newText.setText(`Player ${playerWhoOne} Wins`);
-
-        let style3 = { font: "20px Papyrus", fill: '000', align: "center" }
-        var newText2 = this.add.text(500, 50, '',style3);
-        newText2.setText(`Click LMB to Fight Again`);
-        this.input.on('pointerdown', () => {
-            this.scene.start('main') 
-        });
+        mainScene = this;
+        let win = this.add.image(400,300,'bg2');
+        win.setScale(0.9);
+        let style2 = { font: "120px Papyrus", fill: '#000', align: "center" };
+        let newText = this.add.text(100, 100, '', style2);
+        newText.setText(`Victory`);
     }
 }
 
-
-class BG extends Phaser.Scene
+class Lose extends Phaser.Scene
 {
     constructor() {
-        super('bg');
+        super('lose');
     }
 
     preload() {
-        this.load.image('intro','assets/intro.jpg');
-        this.load.audio('song', 'assets/bass.mp3');
+        this.load.image('bg1','assets/bg1.jfif');
     }
 
     create()
     {
-        //var music = this.sound.add('song', {volume:0.6})
-        //music.play();
-        let start = this.add.image(410,400,'intro');
-        start.setScale(0.8);
-        cursors = this.input.keyboard.createCursorKeys();
-        let style3 = { font: "40px", fill: '#FFFF00', align: "left" };
-        text = this.add.text(-100, 75,"",style3);
-        text.setText(
-            `
-            Level Selection
+        mainScene = this;
+        cursors = this.input.keyboard;
+        let lose = this.add.image(400,300,'bg1');
+        lose.setScale(0.5);
+        let style2 = { font: "90px Papyrus", fill: '#000', align: "center" };
+        let newText = this.add.text(100, 300, '', style2);
+        newText.setText(`Defeat`);
 
-            Rocks : Left Arrow
-            Snow : Up Arrow
-            Sand : Right Arrow
-            Grass : Down Arrow`);
+        let newText2 = this.add.text(500, 50, 'Press Space to Fight Again');
 
-         
+        cursors = this.input.keyboard.addKeys(
+            { shoot:Phaser.Input.Keyboard.KeyCodes.SPACE
+        });
+
     }
+
     update()
     {
-        if(cursors.left.isDown)
+        if(cursors.shoot.isDown)
         {
-            bgNumber = 1;
-            this.scene.start(gameMode)
+            mainScene.scene.start('main')
         }
-        else if(cursors.up.isDown)
-        {
-            bgNumber = 2;
-            this.scene.start(gameMode)
-        }
-        else if(cursors.right.isDown)
-        {
-            bgNumber = 3;
-            this.scene.start(gameMode)
-        }
-        else if(cursors.down.isDown)
-        {
-            bgNumber = 4;
-            this.scene.start(gameMode)
-        }
-    }
-}
-
-
-class WinSingle extends Phaser.Scene
-{
-    constructor() {
-        super('winSingle');
-    }
-
-    preload() {
-        this.load.image('bigun','assets/bigun.jfif');
-    }
-
-    create()
-    {
-        cursors = this.input.keyboard;
-        let style2 = { font: "38px Papyrus", fill: '#fff', align: "center" };
-        let win = this.add.image(400,525,'bigun');
-        win.setScale(1.1);
-        var newText = this.add.text(100, 300, '',style2);
-        newText.setText(`Player ${playerWhoOne} Wins`);
-
-        let style3 = { font: "20px Papyrus", fill: '000', align: "center" }
-        var newText2 = this.add.text(500, 50, '',style3);
-        newText2.setText(`Click LMB to Fight Again`);
-        this.input.on('pointerdown', () => {
-            this.scene.start('single') 
-        });
     }
 }
 
@@ -406,42 +380,45 @@ class Intro extends Phaser.Scene
     }
 
     preload() {
-        this.load.image('intro','assets/intro.jpg');
-        this.load.audio('song', 'assets/bass.mp3');
+        this.load.image('bg','assets/bg3.png');
+        this.load.audio('song', 'assets/song.mp3')
     }
 
     create()
     {
-        var music = this.sound.add('song', {volume:0.6})
+        var music = this.sound.add('song', {volume:0.4})
         music.play();
-        let start = this.add.image(410,400,'intro');
-        start.setScale(0.8);
-        cursors = this.input.keyboard.createCursorKeys();
-        let style3 = { font: "25px", fill: '#FFFF00', align: "left" };
-        text = this.add.text(100, 25,introText,style3);
+        mainScene = this;
+        cursors = this.input.keyboard;
+        let lose = this.add.image(400,300,'bg');
+        lose.setScale(1);
+        let style2 = { font: "18px", fill: '#ffff', align: "left" };
+        let newText = this.add.text(50, 300, '', style2);
+        newText.setText(introText);
 
-         
+        let style3 = { font: "30", fill: '#000', align: "center" };
+        let newText2 = this.add.text(550, 550, 'Press Space to Fight');
+
+        cursors = this.input.keyboard.addKeys(
+            { shoot:Phaser.Input.Keyboard.KeyCodes.SPACE
+        });
+
     }
+
     update()
     {
-        if(cursors.left.isDown)
+        if(cursors.shoot.isDown)
         {
-            gameMode = 'single';
-            this.scene.start('bg')
-        }
-        if(cursors.right.isDown)
-        {
-            gameMode = 'main';
-            this.scene.start('bg')
+            mainScene.scene.start('main')
         }
     }
-}*/
+}
 
 const game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: 'game',
     width: 800,
     height: 600,
-    scene: [SinglePlayer],
+    scene: [Intro, SinglePlayer, Win, Lose],
     physics: { default: 'arcade' },
     });

@@ -23,93 +23,96 @@ body
 
 <ul>
 <li><strong>Originality:</strong>
-This game is completely original with its premise. I have never played anything where you need to shoot your own guys to make them shoot their 
-shots at the enemy becuase your bullets cannot damage them. On top of that, the game is multiplayer.
+The combination of premise, gameplay, and controls is what is orignal about my game. There are many top down military shooters but my game intentionally gets rid of mouse
+input for shooting and instead uses keyboard input for movement and aiming. Since the there is only four direction aiming, the player has to get into the direct line
+of enemy fire rather than avoiding it. This is counter intutive to most shooters and makes this game more of a puzzle experience in a military setting rather than a purely 
+reflexive shooter. On top of that, most shooters eliminate enemies after they are hit, but in this game they are still there until you hit all of the enemies which makes
+the game difficult throughout the whole session rather than easier after a few eliminations.
 </li>
 
 <li><strong>Technical Merit:</strong>
-ITERATION IMPROVEMENT: Getting a stage selection to work with the addition of a new single player gamemode was a tehcnically challenging as these stage and selection choices are made in a main menu. 
-Using bullets to fire the rotation the sprite was facing was really difficult. This is because phaser uses a negative axis past 180 so it goes from 180 to -179. 
-This made the direction the bullets shoot hard to code for the top player since he is always switching between -180 and +180 constantly. Making the multiplayer was a challenge too. I started with no phaser examples for this game.
-ITERATION IMPROVEMENT: The hardest part of this iteration was as metioned before maintaining angle persistance for the AI players as it crosses the 180 and -180 line going down. Keeping the bullet velocity and angle to stay 
-consistent and the roation of the automatic AI was an expansion of the multiplayer input that was still a challenge.
+The enemy shooting system has technical merit as they alternate firing directions. For example, all enemies on the top row will shoot from the first enemy on the left, then skip 
+the enemy right next to him, then the following enemy shoots, then skips, then shoots. The top and bottom rows follow this behavior so that the top row fires oppositily than the bottom.
+The same applies for the left and right sides. Another hard thing was that because enemies are not elimated when hit, I had to keep track on how many unqiue enemies have been hit.
+Initally, you could shoot the same enemy 28 times and win the game since they were not elimated. I figure out that I could store the hit enemy positions in a array with an object that 
+kept track of all the x and y positons of hit enemies. Whenever an enemy is hit this array is checked and if the enemy position matches any of the objects in the array its score is not counted.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-I learned how to iterate on a multiplayer game and give it a single player option. I also learned how to implement stage selection that carries across scenes.
+I learned how to make a puzzle like shooter. The hardest part was figuring out how to keep track of enemies that have already been hit without eliminating them. The easiet
+part was making the movement system.
 </li>
 
 <li><strong>Prototype Assets:</strong>
 <ul>
-<li>All Soldier Sprites: <a href="https://opengameart.org/content/top-down-sci-fi-shooter-pack">Soldiers</a></li>
-<li>Lasers: <a href="https://opengameart.org/content/lasers-and-beams">Laser</a></li>
-<li>Rock Ground: <a href="https://opengameart.org/content/top-down-sci-fi-shooter-pack">Ground</a></li>
-<li>Victory Image: <a href="https://th.bing.com/th/id/Rbb13651c32107a556bd7d0e322cec6c7?rik=eSefRfv0YWq9wg&riu=http%3a%2f%2fwhec-assets-live.s3.amazonaws.com%2f2014%2f10%2f43448_bb13651c32107a556bd7d0e322cec6c7.jpg&ehk=xo1KBT%2fqWMj%2b%2bV9d2f0qFvBwbpB%2f9FNUd35ttNEBrVQ%3d&risl=&pid=ImgRaw">Victory</a></li>
-<li>Intro Image: <a href="https://usercontent1.hubstatic.com/8742986_f520.jpg">Intro Image</a></li>
-<li>Music: <a href="https://freemusicarchive.org/music/Synapsis">Music</a></li>
-<li>Small Laser Sound: <a href="https://freesound.org/people/michael_grinnell/sounds/512469/">Big Laser Sound</a></li>
-<li>Snow: <a href="https://opengameart.org/content/tower-defense-snow-background">Snow</a></li>
+<li>Player and Enemies: <a href="https://opengameart.org/content/animated-top-down-survivor-player">Soldier</a></li>
+<li>Bullet: <a href="https://1001freedownloads.s3.amazonaws.com/vector/thumb/63299/243win.png">Bullet</a></li>
 <li>Sand: <a href="https://opengameart.org/content/tower-defense-dirt-background">Sand</a></li>
-<li>Grass: <a href="https://opengameart.org/content/tower-defense-grass-background">Grass</a></li>
+<li>Intro and Lose Screen: <a href="https://www.deviantart.com/sinakasra">Image</a></li>
+<li>Win Screen: <a href="https://www.bing.com/images/blob?bcid=Try7ZTnXko0CHA">Image</a></li>
+<li>Gun sounds: <a href="https://freesound.org/people/Xenonn/sounds/128298/">Gun</a></li>
+<li>Enemy Hit Sound: <a href="https://freesound.org/people/InspectorJ/sounds/414072/">Enemy Hit</a></li>
+<li>Player Hit Sound: <a href="hhttps://freesound.org/people/GabrielaUPF/sounds/220289/">Player Hit</a></li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-The closest other game is my game for Digital Assignment 4 as this is an iteration with a single player expansion and stage selection options. 
+The closest other game is my game for Digital Assignment is my Analog Assignment 4 Physical Prototype. I iterated on my analog assignment by making the games core mechanic of
+alernating enemy shots and giving the player four directional movment and aiming. The movment and shooting is now realtime gameplay rather than turn based. I also changed the title of the game to something more appropriate
+for the gameplay. As you are surrounded I figured the setting of an ambush would be more appropraite than a saloon. I think another game similar to this one is 
+The Worlds Hardest Game: https://www.coolmathgames.com/0-worlds-hardest-game . The player movement system and alternating enemy shooting is similar, however in my game you do not 
+move from point A to point B, rather you fight back against the enemies. I did not borrow any phaser example code for this game. 
 </li>
 
 <li><strong>High Concept:</strong>
-Two war factions in the far future have guns that are so heavy they cannot move and the only way they can damage their opponent is by shooting at their own side's untrained soldiers to hopefully land a miraculous shot.
+With only 30 bullets remaning, a hostile ambush of 28 enemies puts you in the middle of enemy fire.
 </li>
 
 <li><strong>Theme:</strong>
-The story theme I chose was holding something heavy. Two players are holding a gun that is so heavy that they cannot move. The only way of dealing damaging is by shooting their teammate who is holding something light. 
+There are no storymatic themes for this game because none were assigned.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-The input is indirect because you are not shooting your opponent but shooting your teamate who shoots your opponent. The randomness is in between random and deterministic. This is because your teammate is spinning constantly and shoots seemingly randomly depedning one when your
-shot hits them but you have determistic control over where you shoot. The genre is top-down because the perspective is an overhead view. The play style is for the competitor because the game is multiplayer and
-the objective is to beat your opponent.
+There is no mandated variety for this game because none was required. The input is keyboard. There is no randomness the game is deterministic because enemy and bullet count remain the same and 
+enemy shooting patterns are always the same. The genre is shooter but there are elements of a puzzle game because the game is not purely reflexive action but combines intelligence in how you approach
+the combat scenario. The play style is the achiever as there is a clear objective to beat and beating that objective is the incentive to play.
 </li>
 
 <li><strong>Prototype Goal:</strong>
-The goal of this prototype was to make a single player version of the multiplayer game I made previously from Digital Assignment 4. I also wanted to add stage selection variety for the player since
-the game is supposed be an 'all out war'. Instead if shooting the enemy directly, 
-you shoot something else that deals damage to your opponent. I wanted to make that action very challenging and also very rewarding when it works. This is why your teammate spins and that their bullets block each other
-so that you cannot just aim straight and eventually a straight shot will hit them. The goal was for players to think indirectly about the input available to them.
+The goal of this prototype was to make a puzzle-like shooter that combines reactions and strategy. My Analog prototype made this game turn based and the core idea of thinking were to go and where to shoot is the focus here. 
+Since you cannot aim diagonally, you have to get into lines of fire to land shots so thats were strategy comes in. But reflexes also matter because once bullets get close you need to decide which 
+direction to move and with crossing bullet paths this is a very fast decision.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-I want the players to find the game very challenging but incredibly rewarding when they finally win. The goal is to feel like you beat your human opponent by predictating the randomness 
-of your teammate and using precise timing to land your shot. That shot then needs to hit your teammates and their shot needs to go in the right direction while avoiding the opponents teammate from
-blocking it. All these elements should make finally landing a shot successfully an exhilarating moment.
+I want the players to find the game very challenging. The game is definitely beatable but you are at a disadvantage. I want the player to feel like defeat is close at every second and that they 
+are walking on a hair thin line of losing no matter how close they are to winning.
 </li>
 
 <li><strong>Gameplay:</strong>
-ITERATION IMPROVEMENT: For the newly created single player game mode, the AI shoots faster than the player and the enemies bullet from their marine shoots three bullets instead of one increasing the challenge of the game significantly.
-Two players are placed facing directly across from each other. They cannot move because their guns are too heavy and their bullets cannot damage each other. Each player has an untrained
-teammate ahead of them that spins constantly. This teammate cannot be damaged by the opponent and will block the opponents teammate's shots. The gameplay consists of aiming your shot
-to fire at the exact moment where it will land on your teammate who will then fire their shot it the direction they are facing. If their shot hits the other player's teammate, the shot 
-is destroyed. When your teammate's shot hits the opponent, you win.
+The game put the the player in the center of the screen. There are 8 seperated enemies in a single row the top of the screen. The same in true for the bottom. There are 6 enemies in the same column
+on the left side of the screen. The same is true for the right. The player has 30 bullets. There are 28 enemies. The enemies shoot in an alternating pattern. 
+For example, all enemies on the top row will shoot from the first enemy on the left, then skip the enemy right next to him, then the following enemy shoots, then skips, then shoots.
+The same applies for the bottom row, left column, and right column. The enemies shoot all at the same time. Once their bullet reaches the other side, they shoot again in the alternating pattern. 
+The player move with the arrow keys and aims with WASD. Shooting one bullet is done by pressing Spacebar. The player shoots in the direction they are facing. When their bullet 
+hits an enemy, that enemy is wounded but they will continue to shoot. Once all enemies have been wounded with one shot, the player wins the game. If the player is hit with an enemy bullet or their body touches and enemy they instantly lose.
 </li>
 
 <li><strong>Strategies:</strong>
-The best strategy is to aim at the space between the edges and the center. This is because shots teammates shoot will be blocked if fired down the center as they immediatly hit the opponents teamates.
-That mid area is the highest chance of accuracy while avoiding getting blocked.
+The best strategy is to stay in the middle of the map. This gives you the most reaction time because bullets take the longest amount of time to reach there.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
-ITERATION IMPROVEMENT: There are now in this iteration 4 stage options: rock, snow, sand, and grass for the settings of battlefields.
-The premise is that two sci-fi factions are at war but their guns are too heavy. They are so heavy that they can't move but they have small untrained soliders who can. Only by shooting
-their own soldiers can they damage the other factions immobile heavy gunner.
+The story is that you are a soldier that is ambushed by hostiles in a modern warfare setting. The premise is that you only have 30 bullets but there are 28 enemies that will not
+stop shooting until they are all elimated. 
 </li>
 
 <li><strong>Target Audience:</strong>
-The target audience is fans of sci-fi shooters and competitive games that can be played locally.
+The target audience is fans of hard games, shooter, and puzzle games.
 </li>
 
 <li><strong>Play Time:</strong>
-The game takes 1 to 5 minutes depending on how many times players miss their shots.
+The game takes 1 to 5 minutes depending on how cautious the player is and how many times they lose.
 </li>
 
 </ul>

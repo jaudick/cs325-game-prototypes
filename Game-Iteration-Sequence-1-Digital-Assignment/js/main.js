@@ -27,6 +27,7 @@ let enemiesTop;
 let enemiesBottom;
 let enemiesLeft;
 let enemiesRight;
+let enemiesAlreadyHit = [];
 //let gameOver = false;
 let mainScene;
 let introText = 
@@ -77,6 +78,7 @@ class SinglePlayer extends Phaser.Scene {
     }
     
     create() {
+        enemiesAlreadyHit = [];
         score = 0;
         enemiesRemaining = 28;
         bullets = 30;
@@ -161,12 +163,21 @@ class SinglePlayer extends Phaser.Scene {
 
         function enemiesHit(bullet, other)
         {
+            for(let i = 0; i<enemiesAlreadyHit.length; i++)
+            {
+                if(other.x == enemiesAlreadyHit[i].x && other.y == enemiesAlreadyHit[i].y)
+                {
+                    bullet.disableBody(true,true);
+                    return;
+                }
+            }
             enemiesRemaining--;
             enemyText.setText(`Enemies Remaining: ${enemiesRemaining}`)
             hit.play();
             if(enemiesRemaining==0) win();
             other.setTint(0xff0000);
             bullet.disableBody(true,true);
+            enemiesAlreadyHit.push({x:other.x,y: other.y});
         }
 
         enemiesShoot = function (enemies, direction, skipParameter)
@@ -386,15 +397,18 @@ class Intro extends Phaser.Scene
 
     create()
     {
-        var music = this.sound.add('song', {volume:0.4})
+        var music = this.sound.add('song', {volume:0.2})
         music.play();
         mainScene = this;
         cursors = this.input.keyboard;
         let lose = this.add.image(400,300,'bg');
         lose.setScale(1);
         let style2 = { font: "18px", fill: '#ffff', align: "left" };
-        let newText = this.add.text(50, 300, '', style2);
+        let newText = this.add.text(50, 340, '', style2);
         newText.setText(introText);
+
+        let style4 = { font: "40px", fill: '#ffff', align: "left" };
+        let newText3 = this.add.text(50, 290, 'OPERATION AMBUSH', style4);
 
         let style3 = { font: "30", fill: '#000', align: "center" };
         let newText2 = this.add.text(550, 550, 'Press Space to Fight');

@@ -54,8 +54,8 @@ let enemiesRemaining = 28;
 let bulletText;
 let speed = 200;
 let playerBulletVelocity = 500;
-let timeToSpawn = 1.4; //1
-let enemyBulletVelocity = 300; //300
+let timeToSpawn = 1.2; //1
+let enemyBulletVelocity = 400; //300
 let canShoot = true;
 let shoot = undefined;
 let direction = "right";
@@ -205,6 +205,15 @@ class SinglePlayer extends Phaser.Scene {
                     enemyBullet.setScale(0.1,0.1);
                     physics.add.overlap(enemyBullet, player, playerDie, null, this);
                     skip = true;
+
+                    let enemyBullet2 = physics.add.image(child.x,child.y,'bulletRed');
+                    enemyBullet2.setTint(0x0000)
+                    let velocityX2 = direction == "right" ? enemyBulletVelocity : direction == "left" ? -enemyBulletVelocity : 0;
+                    let velocityY2 = direction == "up" ? -enemyBulletVelocity: direction == "down" ? enemyBulletVelocity : 0;
+                    enemyBullet2.setVelocity(velocityX2/2,velocityY2/2);
+                    enemyBullet2.angle = child.angle + 90;
+                    enemyBullet2.setScale(0.1,0.1);
+                    physics.add.overlap(enemyBullet, player, playerDie, null, this);
                 }
 
                 else 
@@ -234,8 +243,8 @@ class SinglePlayer extends Phaser.Scene {
                 mainScene.scene.start('win');
             else
             {
-                timeToSpawn-=0.2;
-                enemyBulletVelocity+=50;
+                timeToSpawn-=0.1;
+                enemyBulletVelocity+=40;
                 mainScene.scene.start('win');
             }
         }

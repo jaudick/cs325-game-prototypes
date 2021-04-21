@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Operation Ambush</h2>
+
+<ul>
+<li><strong>Originality:</strong>
+The combination of premise, gameplay, and controls is what is orignal about my game. There are many top down military shooters but my game intentionally gets rid of mouse
+input for shooting and instead uses keyboard input for movement and aiming. Since the there is only four direction aiming, the player has to get into the direct line
+of enemy fire rather than avoiding it. This is counter intutive to most shooters and makes this game more of a puzzle experience in a military setting rather than a purely 
+reflexive shooter. On top of that, most shooters eliminate enemies after they are hit, but in this game they are still there until you hit all of the enemies which makes
+the game difficult throughout the whole session rather than easier after a few eliminations.
+</li>
+
+<li><strong>Technical Merit:</strong>
+ITERATION: I added a wave system that saves the current wave the player is on so that when they lose they do not need to restart the whole game. They restart on the last wave that they died on.
+I also have a health system that reacts differently to bullet and enemy collisions.
+<br/>
+ORIGINAL: The enemy shooting system has technical merit as they alternate firing directions. For example, all enemies on the top row will shoot from the first enemy on the left, then skip 
+the enemy right next to him, then the following enemy shoots, then skips, then shoots. The top and bottom rows follow this behavior so that the top row fires oppositily than the bottom.
+The same applies for the left and right sides. Another hard thing was that because enemies are not elimated when hit, I had to keep track on how many unqiue enemies have been hit.
+Initally, you could shoot the same enemy 28 times and win the game since they were not elimated. I figure out that I could store the hit enemy positions in a array with an object that 
+kept track of all the x and y positons of hit enemies. Whenever an enemy is hit this array is checked and if the enemy position matches any of the objects in the array its score is not counted.
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+I learned how to make a puzzle like shooter. The hardest part was figuring out how to keep track of enemies that have already been hit without eliminating them. The easiet
+part was making the movement system.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+<ul>
+<li>Player and Enemies: <a href="https://opengameart.org/content/animated-top-down-survivor-player">Soldier</a></li>
+<li>Bullet: <a href="https://1001freedownloads.s3.amazonaws.com/vector/thumb/63299/243win.png">Bullet</a></li>
+<li>Sand: <a href="https://opengameart.org/content/tower-defense-dirt-background">Sand</a></li>
+<li>Intro and Lose Screen: <a href="https://www.deviantart.com/sinakasra">Image</a></li>
+<li>Win Screen: <a href="https://www.bing.com/images/blob?bcid=Try7ZTnXko0CHA">Image</a></li>
+<li>Gun sounds: <a href="https://freesound.org/people/Xenonn/sounds/128298/">Gun</a></li>
+<li>Enemy Hit Sound: <a href="https://freesound.org/people/InspectorJ/sounds/414072/">Enemy Hit</a></li>
+<li>Player Hit Sound: <a href="hhttps://freesound.org/people/GabrielaUPF/sounds/220289/">Player Hit</a></li>
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+ITERATION: The closest other game is my game for Digital Assignment is my Game Iteration Sequence 1 Digital Assignment. I iterated on this game by adding an increasing difficulty 
+wave system. With each wave, the enemy reload time is decreased and their bullet speed is increased. I also added a health system because the game was already hard enough but with
+ a new increasing wave difficulty it was getting too hard for the average player. Now the player has 5 hits avaliable per ambush. This only applies to getting hit by bullets. The player will die instantly if 
+ they touch an enemy's body. Additionally, the enemies now shoot one fast bullet and one slow bullet with each volley. This makes engagements even more intense and balances the addition of health.
+</li>
+
+<li><strong>High Concept:</strong>
+With only 30 bullets remaning, a hostile ambush of 28 enemies puts you in the middle of enemy fire.
+</li>
+
+<li><strong>Theme:</strong>
+There are no storymatic themes for this game because none were assigned.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+There is no mandated variety for this game because none was required. The input is keyboard. There is no randomness the game is deterministic because enemy and bullet count remain the same and 
+enemy shooting patterns are always the same. The genre is shooter but there are elements of a puzzle game because the game is not purely reflexive action but combines intelligence in how you approach
+the combat scenario. The play style is the achiever as there is a clear objective to beat and beating that objective is the incentive to play.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+The goal of this prototype was to make a puzzle-like shooter that combines reactions and strategy. My Analog prototype made this game turn based and the core idea of thinking were to go and where to shoot is the focus here. 
+Since you cannot aim diagonally, you have to get into lines of fire to land shots so thats were strategy comes in. But reflexes also matter because once bullets get close you need to decide which 
+direction to move and with crossing bullet paths this is a very fast decision.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+I want the players to find the game very challenging. The game is definitely beatable but you are at a disadvantage. I want the player to feel like defeat is close at every second and that they 
+are walking on a hair thin line of losing no matter how close they are to winning.
+</li>
+
+<li><strong>Gameplay:</strong>
+    <br />
+ITERATION: The player has 5 health avaliable. If the player is hit with an enemy bullet they lose 1 heath. If their body touches an enemy they instantly lose. There are 5 ambush waves of enemies.
+With each wave the enemy reload time is decreased and their bullet speed is increased. Hitting every enemy once in all 5 waves without dying is how the player wins the game. Enemies will shoot one
+ fast bullet and one slow bullet with each volley. Both are equally as deadly and must be avoided.
+<br />
+
+ORIGINAL: The game put the the player in the center of the screen. There are 8 seperated enemies in a single row the top of the screen. The same in true for the bottom. There are 6 enemies in the same column
+on the left side of the screen. The same is true for the right. The player has 30 bullets. There are 28 enemies. The enemies shoot in an alternating pattern. 
+For example, all enemies on the top row will shoot from the first enemy on the left, then skip the enemy right next to him, then the following enemy shoots, then skips, then shoots.
+The same applies for the bottom row, left column, and right column. The enemies shoot all at the same time. Once their bullet reaches the other side, they shoot again in the alternating pattern. 
+The player move with the arrow keys and aims with WASD. Shooting one bullet is done by pressing Spacebar. The player shoots in the direction they are facing. When their bullet 
+hits an enemy, that enemy is wounded but they will continue to shoot. Once all enemies have been wounded with one shot, the player wins the game. 
+</li>
+
+<li><strong>Strategies:</strong>
+The best strategy is to stay in the middle of the map. This gives you the most reaction time because bullets take the longest amount of time to reach there.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+The story is that you are a soldier that is ambushed by hostiles in a modern warfare setting. The premise is that you only have 30 bullets but there are 28 enemies that will not
+stop shooting until they are all elimated. 
+</li>
+
+<li><strong>Target Audience:</strong>
+The target audience is fans of hard games, shooter, and puzzle games.
+</li>
+
+<li><strong>Play Time:</strong>
+The game takes 3 to 8 minutes depending on how cautious the player is and how many times they lose.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>

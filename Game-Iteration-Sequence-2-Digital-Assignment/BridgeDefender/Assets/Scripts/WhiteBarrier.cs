@@ -10,6 +10,8 @@ public class WhiteBarrier : MonoBehaviour
 
     private void Start()
     {
+        GameManager.instance.white++;
+        GameManager.instance.WhiteTextUpdate();
         Rigidbody2D rbody = GetComponent<Rigidbody2D>();
         if (isLeft) rbody.velocity = new Vector2(-speed, 0);
         else rbody.velocity = new Vector2(speed, 0);
@@ -19,11 +21,15 @@ public class WhiteBarrier : MonoBehaviour
     {
         if(collision.GetComponent<Bullet>()!=null)
         {
+            Instantiate(particle, transform.position, Quaternion.identity);
             collision.gameObject.GetComponent<Bullet>().DestroyBullet();
+            GameManager.instance.WhiteTextUpdate();
         }
 
         else if(collision.CompareTag("Wall"))
         {
+            GameManager.instance.white--;
+            GameManager.instance.WhiteTextUpdate();
             Instantiate(particle, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

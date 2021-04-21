@@ -100,7 +100,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.16
+  m_GravityScale: 0.17
   m_Material: {fileID: 6200000, guid: d137c6a490ce476468db8271b2d984e2, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -146,3 +146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 6336701051510559474, guid: 7775bda2708e41049a828de05478232d, type: 3}
   parent: {fileID: 0}
+  clip: {fileID: 8300000, guid: ba247140f44ce894e9592b9fa5718e1e, type: 3}
